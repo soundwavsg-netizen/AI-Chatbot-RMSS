@@ -142,8 +142,8 @@ const RMSSHomepage = () => {
                 <li>• Biology</li>
               </ul>
               <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded">
-                <strong>Contact for pricing:</strong><br>
-                Call 6222 8222<br>
+                <strong>Contact for pricing:</strong><br />
+                Call 6222 8222<br />
                 <em>Competitive rates available</em>
               </div>
             </div>
