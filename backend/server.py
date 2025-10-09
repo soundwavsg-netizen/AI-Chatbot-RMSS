@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,10 +6,10 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
-
+from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -25,10 +25,12 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
+# AI Chat Configuration
+EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
 
 # Define Models
 class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
+    model_config = ConfigDict(extra="ignore")
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     client_name: str
@@ -37,10 +39,128 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
-# Add your routes to the router instead of directly to app
+# Chat Models
+class ChatMessage(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    message: str
+    sender: str  # 'user' or 'assistant'
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class ChatRequest(BaseModel):
+    message: str
+    session_id: Optional[str] = None
+    user_type: Optional[str] = "visitor"  # visitor, parent, student
+
+class ChatResponse(BaseModel):
+    response: str
+    session_id: str
+    message_id: str
+
+# Education-focused AI system message for RMSS
+RMSS_SYSTEM_MESSAGE = """
+You are an AI assistant for Raymond's Math & Science Studio (RMSS), a premier tuition center in Singapore. You help students, parents, and visitors with inquiries about:
+
+**RMSS Information:**
+- Subjects: Mathematics, Science (Physics, Chemistry, Biology), and Economics
+- Levels: Primary school to Junior College (JC)
+- Locations: Jurong, Bishan, Punggol, Kovan, Marine Parade
+- Contact: 6222 8222, contactus@rmss.com.sg
+- Website: rmss.com.sg
+
+**Your Role:**
+- Be friendly, professional, and encouraging about education
+- Provide helpful information about courses, enrollment, and study tips
+- Collect contact details for follow-up when appropriate
+- Handle both English and basic Chinese inquiries
+- Always maintain a supportive, education-focused tone
+
+**Common Inquiries:**
+- Course schedules and availability
+- Enrollment process and fees
+- Study tips and learning resources
+- Location directions and timings
+- Student progress and parent concerns
+
+If you don't know specific details (like current fees or exact schedules), guide them to contact the center directly.
+"""
+
+# Chat API endpoints
+@api_router.post("/chat", response_model=ChatResponse)
+async def chat_with_ai(request: ChatRequest):
+    try:
+        # Generate session ID if not provided
+        session_id = request.session_id or str(uuid.uuid4())
+        
+        # Initialize chat with education-focused system message
+        chat = LlmChat(
+            api_key=EMERGENT_LLM_KEY,
+            session_id=session_id,
+            system_message=RMSS_SYSTEM_MESSAGE
+        ).with_model("openai", "gpt-4o-mini")
+        
+        # Create user message
+        user_message = UserMessage(text=request.message)
+        
+        # Get AI response
+        ai_response = await chat.send_message(user_message)
+        
+        # Store user message in database
+        user_msg_dict = {
+            "id": str(uuid.uuid4()),
+            "session_id": session_id,
+            "message": request.message,
+            "sender": "user",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "user_type": request.user_type
+        }
+        await db.chat_messages.insert_one(user_msg_dict)
+        
+        # Store AI response in database
+        ai_msg_id = str(uuid.uuid4())
+        ai_msg_dict = {
+            "id": ai_msg_id,
+            "session_id": session_id,
+            "message": ai_response,
+            "sender": "assistant",
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        await db.chat_messages.insert_one(ai_msg_dict)
+        
+        return ChatResponse(
+            response=ai_response,
+            session_id=session_id,
+            message_id=ai_msg_id
+        )
+    except Exception as e:
+        logging.error(f"Chat error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Chat service error: {str(e)}")
+
+@api_router.get("/chat/history/{session_id}", response_model=List[ChatMessage])
+async def get_chat_history(session_id: str):
+    """Get chat history for a session"""
+    try:
+        messages = await db.chat_messages.find(
+            {"session_id": session_id}, 
+            {"_id": 0}
+        ).sort("timestamp", 1).to_list(100)
+        
+        # Convert ISO string timestamps back to datetime objects
+        for msg in messages:
+            if isinstance(msg['timestamp'], str):
+                msg['timestamp'] = datetime.fromisoformat(msg['timestamp'])
+        
+        return messages
+    except Exception as e:
+        logging.error(f"History retrieval error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve chat history")
+
+# Original status check endpoints
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "RMSS AI Chatbot API"}
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
