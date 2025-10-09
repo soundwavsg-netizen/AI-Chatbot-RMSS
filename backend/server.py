@@ -174,8 +174,8 @@ async def chat_with_ai(request: ChatRequest):
         await db.chat_messages.insert_one(user_msg_dict)
         
         # Store AI response in database (clean the response thoroughly)
-        # Remove all newlines and extra whitespace, then format properly
-        cleaned_response = ' '.join(ai_response.split())
+        # Remove all newlines, carriage returns, and extra whitespace
+        cleaned_response = ' '.join(ai_response.strip().replace('\n', ' ').replace('\r', ' ').split())
         ai_msg_id = str(uuid.uuid4())
         ai_msg_dict = {
             "id": ai_msg_id,
