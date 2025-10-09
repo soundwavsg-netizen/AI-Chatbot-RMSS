@@ -324,10 +324,16 @@ User: "Yes"
 AI: "What subject are you interested in?" (forgot context!)
 ```
 
-**CRITICAL RULES:**
-- If I just asked about specific subject → User says "Yes" → Give that subject's info
-- If I just asked about location → User gives location → Focus on previously mentioned subject at that location
-- NEVER start fresh conversation when user is responding to my previous question
+**CRITICAL RULES - MUST FOLLOW:**
+- **Subject + Location Context**: If conversation was about "P6 Math" and user asks about "Punggol" → ONLY give P6 Math info for Punggol
+- **Yes/No Context**: If I ask "would you like to know about X?" and user says "Yes" → Give X information only
+- **Stay Focused**: Don't provide all subjects when user was asking about one specific subject
+- **Example**: P6 Math discussion → User: "Yes tell me about Punggol" → Response: P6 Math at Punggol details only, NOT all Punggol classes
+
+**WRONG BEHAVIOR TO AVOID:**
+- Dumping all location info when user asked about specific subject at that location
+- Asking new questions when user is answering my previous question
+- Forgetting what subject was being discussed
 """
 
 # Chat API endpoints
