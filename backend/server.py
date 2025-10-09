@@ -190,12 +190,16 @@ async def chat_with_ai(request: ChatRequest):
         
         # Final cleaning step before return
         final_response = cleaned_response.strip()
+        logging.info(f"Final response before return: {repr(final_response)}")
         
-        return ChatResponse(
+        chat_response = ChatResponse(
             response=final_response,
             session_id=session_id,
             message_id=ai_msg_id
         )
+        logging.info(f"ChatResponse object: {repr(chat_response.response)}")
+        
+        return chat_response
     except Exception as e:
         logging.error(f"Chat error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Chat service error: {str(e)}")
