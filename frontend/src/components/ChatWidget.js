@@ -67,6 +67,11 @@ const ChatWidget = () => {
         user_type: 'visitor'
       });
 
+      // Debug the response
+      console.log('Raw API response:', JSON.stringify(response.data.response));
+      console.log('Response length:', response.data.response.length);
+      console.log('Last 5 chars:', JSON.stringify(response.data.response.slice(-5)));
+      
       const assistantMessage = {
         id: response.data.message_id,
         message: response.data.response.trim().replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\\n/g, ' ').replace(/\s+/g, ' '),
