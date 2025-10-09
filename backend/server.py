@@ -171,19 +171,20 @@ async def chat_with_ai(request: ChatRequest):
         }
         await db.chat_messages.insert_one(user_msg_dict)
         
-        # Store AI response in database
+        # Store AI response in database (clean the response)
+        cleaned_response = ai_response.strip()
         ai_msg_id = str(uuid.uuid4())
         ai_msg_dict = {
             "id": ai_msg_id,
             "session_id": session_id,
-            "message": ai_response,
+            "message": cleaned_response,
             "sender": "assistant",
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
         await db.chat_messages.insert_one(ai_msg_dict)
         
         return ChatResponse(
-            response=ai_response,
+            response=cleaned_response,
             session_id=session_id,
             message_id=ai_msg_id
         )
