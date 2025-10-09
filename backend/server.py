@@ -186,8 +186,11 @@ async def chat_with_ai(request: ChatRequest):
         }
         await db.chat_messages.insert_one(ai_msg_dict)
         
+        # Final cleaning step before return
+        final_response = cleaned_response.strip()
+        
         return ChatResponse(
-            response=cleaned_response,
+            response=final_response,
             session_id=session_id,
             message_id=ai_msg_id
         )
