@@ -194,7 +194,7 @@ const ChatWidget = () => {
                         ? 'bg-red-600 text-white rounded-br-sm'
                         : 'bg-white text-gray-800 rounded-bl-sm border border-gray-200'
                     }`}>
-                      <p className="text-sm">{msg.message.trim()}</p>
+                      <div className="text-sm" style={{whiteSpace: 'normal'}}>{msg.message.trim().replace(/\n/g, ' ')}</div>
                       <p className={`text-xs mt-1 ${
                         msg.sender === 'user' ? 'text-red-100' : 'text-gray-500'
                       }`}>
