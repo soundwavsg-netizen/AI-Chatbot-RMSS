@@ -84,11 +84,11 @@ const RMSSHomepage = () => {
             <div className="text-center p-6 rounded-lg bg-gradient-to-br from-gray-50 to-white border-2 border-gray-100 hover:border-red-300 transition duration-300">
               <div className="bg-gray-800 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Small Class Sizes</h3>
-              <p className="text-gray-600">Personalized attention with optimal student-to-teacher ratios</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Quality Education</h3>
+              <p className="text-gray-600">Experienced educators focused on student success and academic excellence</p>
             </div>
             
             <div className="text-center p-6 rounded-lg bg-gradient-to-br from-red-50 to-white border-2 border-red-100 hover:border-red-300 transition duration-300">
