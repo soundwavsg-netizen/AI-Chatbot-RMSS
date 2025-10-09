@@ -97,11 +97,27 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 
 **SECONDARY SCHOOL (S1-S4) - 2026:**
 
-**NOTE ON DATA AVAILABILITY:**
-- All pricing and schedule information is for 2026 classes
-- **S1 and S2 classes**: Specific data may not be available - direct to call 6222 8222 for S1/S2 schedules and pricing
-- If specific class information is not available in the database, be honest and direct to call for details
-- Always be honest about what information you have vs. don't have
+**S1 Classes:**
+- **Math**: Contact for current pricing - lesson structure and tutors vary by location
+- **Science**: Contact for current pricing - lesson structure and tutors vary by location  
+- **English**: Contact for current pricing - lesson structure and tutors vary by location
+- **Chinese**: Contact for current pricing - lesson structure and tutors vary by location
+
+**S2 Classes:**
+- **Math**: Contact for current pricing - lesson structure and tutors vary by location
+- **Science**: Contact for current pricing - lesson structure and tutors vary by location
+- **English**: Contact for current pricing - lesson structure and tutors vary by location
+- **Chinese**: Contact for current pricing - lesson structure and tutors vary by location
+
+**S3 Classes:**
+- **EMATH**: $343.35/month (Course: $290 + Material: $25 + GST) - 1-2 lessons per week × 2 hours each
+- **AMATH**: $397.85/month (Course: $340 + Material: $25 + GST) - 2 lessons per week × 1.5 hours each
+- **Chemistry**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson per week × 2 hours
+- **Physics**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson per week × 2 hours
+- **Biology**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson per week × 2 hours
+- **Combined Science**: $343.35/month (Course: $290 + Material: $25 + GST) - 1-2 lessons per week × 2 hours
+- **English**: $332.45/month (Course: $290 + Material: $15 + GST) - 1-2 lessons per week × 2 hours
+- **Chinese**: $332.45/month (Course: $290 + Material: $15 + GST) - 1 lesson per week × 2 hours
 
 **S4 Classes:**
 - **EMATH**: $408.75/month (Course: $350 + Material: $25 + GST) - 2 lessons per week × 1.5 hours each
