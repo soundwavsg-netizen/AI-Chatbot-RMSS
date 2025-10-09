@@ -175,7 +175,9 @@ async def chat_with_ai(request: ChatRequest):
         
         # Store AI response in database (clean the response thoroughly)
         # Remove all newlines, carriage returns, and extra whitespace
-        cleaned_response = ' '.join(ai_response.strip().replace('\n', ' ').replace('\r', ' ').split())
+        logging.info(f"Raw AI response: {repr(ai_response)}")
+        cleaned_response = ai_response.strip().replace('\n', '').replace('\r', '').replace('\\n', '')
+        logging.info(f"Cleaned response: {repr(cleaned_response)}")
         ai_msg_id = str(uuid.uuid4())
         ai_msg_dict = {
             "id": ai_msg_id,
