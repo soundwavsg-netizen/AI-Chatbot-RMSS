@@ -263,7 +263,7 @@ const ChatWidget = () => {
       {/* Chat Button */}
       <button
         onClick={toggleChat}
-        className={`fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-40 chat-bounce-in ${
+        className={`fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-red-600 to-gray-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-50 chat-bounce-in ${
           !isOpen ? 'chat-pulse' : ''
         }`}
         data-testid="chat-toggle-btn"
