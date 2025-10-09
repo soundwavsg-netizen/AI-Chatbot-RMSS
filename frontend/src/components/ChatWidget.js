@@ -51,7 +51,7 @@ const ChatWidget = () => {
 
     const userMessage = {
       id: Date.now().toString(),
-      message: inputMessage.trim(),
+      message: inputMessage.trim().replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\\n/g, ' ').replace(/\s+/g, ' '),
       sender: 'user',
       timestamp: new Date()
     };
