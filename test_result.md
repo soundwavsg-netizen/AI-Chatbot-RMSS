@@ -101,3 +101,61 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Update the AI chatbot with comprehensive 2026/2027 schedule, pricing, tutor, and location information from 11 reservation form PDFs covering all levels (P2-P6, S1-S4, J1-J2) and calendar information for holidays and fee settlements."
+
+backend:
+  - task: "Extract and integrate comprehensive 2026 class information"
+    implemented: false
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Currently extracting information from 11 PDFs. Have extracted P2, P3, P4, J1, S1, and calendar data. Need to complete extraction of P5, P6, S2, S3, S4, J2 and update RMSS_SYSTEM_MESSAGE with comprehensive accurate data."
+
+  - task: "Update RMSS_SYSTEM_MESSAGE with extracted PDF data"
+    implemented: false
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Need to replace current system message with comprehensive data including schedules, pricing, tutors, locations, holiday information from all extracted PDFs"
+
+frontend:
+  - task: "Embedded Chat Widget functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/SimpleChatWidget.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Chat widget implemented and working, but will need testing after backend system message is updated with comprehensive PDF data"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Extract and integrate comprehensive 2026 class information"
+    - "Update RMSS_SYSTEM_MESSAGE with extracted PDF data"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Starting comprehensive update of AI system with all 11 PDF reservation forms and calendar data. Have extracted P2, P3, P4, J1, S1 and calendar information. Will complete extraction of remaining levels and update system message."
