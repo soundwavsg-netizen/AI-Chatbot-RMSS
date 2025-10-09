@@ -191,7 +191,7 @@ const RMSSHomepage = () => {
             <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Operating Hours</h3>
             <div className="grid md:grid-cols-3 gap-4 text-center">
               <div>
-                <strong className="text-red-600">Wednesday - Friday</strong><br>
+                <strong className="text-red-600">Wednesday - Friday</strong><br />
                 <span className="text-gray-700">3:30 PM - 9:30 PM</span>
               </div>
               <div>
