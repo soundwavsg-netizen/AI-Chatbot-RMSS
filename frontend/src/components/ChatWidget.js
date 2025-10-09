@@ -146,14 +146,14 @@ const ChatWidget = () => {
       {isOpen && (
         <div className={`fixed bottom-20 right-6 w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col z-50 chat-slide-up ${isMinimized ? 'h-12' : ''}`}>
           {/* Header */}
-          <div className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
+          <div className="bg-gradient-to-r from-red-600 to-gray-800 text-white p-4 rounded-t-lg flex justify-between items-center">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                 <span className="text-sm font-bold">AI</span>
               </div>
               <div>
                 <h3 className="font-semibold">RMSS Assistant</h3>
-                <p className="text-xs text-blue-100">Always here to help</p>
+                <p className="text-xs text-red-100">Always here to help</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
