@@ -204,7 +204,12 @@ async def chat_with_ai(request: ChatRequest):
         )
         logging.info(f"ChatResponse object: {repr(chat_response.response)}")
         
-        return chat_response
+        # Return with manual dict to bypass any Pydantic issues
+        return {
+            "response": final_response.replace('\n', '').replace('\r', '').replace('\\n', '').strip(),
+            "session_id": session_id,
+            "message_id": ai_msg_id
+        }
     except Exception as e:
         logging.error(f"Chat error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Chat service error: {str(e)}")
