@@ -191,12 +191,12 @@ const ChatWidget = () => {
                   >
                     <div className={`max-w-[80%] p-3 rounded-lg ${
                       msg.sender === 'user'
-                        ? 'bg-indigo-600 text-white rounded-br-sm'
+                        ? 'bg-red-600 text-white rounded-br-sm'
                         : 'bg-white text-gray-800 rounded-bl-sm border border-gray-200'
                     }`}>
                       <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
                       <p className={`text-xs mt-1 ${
-                        msg.sender === 'user' ? 'text-blue-100' : 'text-gray-500'
+                        msg.sender === 'user' ? 'text-red-100' : 'text-gray-500'
                       }`}>
                         {formatTime(msg.timestamp)}
                       </p>
