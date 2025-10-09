@@ -117,9 +117,9 @@ const ChatWidget = () => {
   // Sample quick replies for demo
   const quickReplies = [
     "What courses do you offer?",
-    "How to enroll?",
-    "Location information",
-    "Class schedules"
+    "Primary school pricing?",
+    "Location and schedule?",
+    "How to enroll?"
   ];
 
   const handleQuickReply = (message) => {
