@@ -199,7 +199,7 @@ const RMSSHomepage = () => {
                 <span className="text-gray-700">10:00 AM - 5:30 PM</span>
               </div>
               <div>
-                <strong className="text-red-600">Sunday</strong><br>
+                <strong className="text-red-600">Sunday</strong><br />
                 <span className="text-gray-700">1:00 PM - 5:30 PM</span>
               </div>
             </div>
