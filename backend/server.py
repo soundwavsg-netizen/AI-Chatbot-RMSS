@@ -157,7 +157,6 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 - **Christmas Day**: December 25, 2026
 
 **SCHOOL HOLIDAY WEEKS (Usually no lessons):**
-- **January**: 19-25, 2026
 - **June Rest Week**: June 1-7, 2026  
 - **December Rest Week**: December 29-31, 2026
 
