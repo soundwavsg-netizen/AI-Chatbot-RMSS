@@ -126,9 +126,9 @@ const RMSSHomepage = () => {
                 <li>• Chinese</li>
               </ul>
               <div className="text-sm text-gray-600 bg-red-50 p-3 rounded">
-                <strong>Sample Pricing:</strong><br>
-                P3: $267 for 4×2hr lessons<br>
-                P6: $303 for 4×2hr lessons<br>
+                <strong>Sample Pricing:</strong><br />
+                P3: $267 for 4×2hr lessons<br />
+                P6: $303 for 4×2hr lessons<br />
                 <em>(+GST)</em>
               </div>
             </div>
