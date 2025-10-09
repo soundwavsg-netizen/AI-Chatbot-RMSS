@@ -54,6 +54,9 @@ const RMSSHomepage = () => {
               <button className="border-2 border-red-600 text-red-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-red-50 transition duration-300">
                 Learn More
               </button>
+              <a href="/whatsapp" className="bg-green-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-green-700 transition duration-300 text-center">
+                💬 WhatsApp Demo
+              </a>
             </div>
           </div>
         </div>
