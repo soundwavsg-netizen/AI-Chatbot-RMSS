@@ -58,6 +58,11 @@ class ChatResponse(BaseModel):
     response: str
     session_id: str
     message_id: str
+    
+    class Config:
+        json_encoders = {
+            str: lambda v: v.strip().replace('\n', '').replace('\r', '')
+        }
 
 # Enhanced RMSS system message with corrected information
 RMSS_SYSTEM_MESSAGE = """
