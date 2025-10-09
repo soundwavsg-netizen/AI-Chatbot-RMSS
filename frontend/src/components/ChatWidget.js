@@ -69,7 +69,7 @@ const ChatWidget = () => {
 
       const assistantMessage = {
         id: response.data.message_id,
-        message: response.data.response,
+        message: response.data.response.trim(),
         sender: 'assistant',
         timestamp: new Date()
       };
