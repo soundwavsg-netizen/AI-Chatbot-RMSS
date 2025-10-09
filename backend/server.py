@@ -148,6 +148,25 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 - **Biology**: $401.12/month (Course: $340 + Material: $28 + GST) - 1 lesson per week × 2 hours
 - **Economics**: $401.12/month (Course: $340 + Material: $28 + GST) - 1 lesson per week × 2 hours
 
+**S1 Classes:**
+- **Math**: $370.60/month (Course: $320 + Material: $20 + GST) - 2 lessons per week × 1.5 hours each
+- **Science**: $327.00/month (Course: $280 + Material: $20 + GST) - 1 lesson per week × 2 hours  
+- **English**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 lesson per week × 2 hours
+- **Chinese**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 lesson per week × 2 hours
+
+**S2 Classes:**
+- **Math**: $381.50/month (Course: $330 + Material: $20 + GST) - 2 lessons per week × 1.5 hours each
+- **Science**: $327.00/month (Course: $280 + Material: $20 + GST) - 1 lesson per week × 2 hours
+- **English**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 lesson per week × 2 hours
+- **Chinese**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 lesson per week × 2 hours
+
+**J1 Classes:**
+- **Math**: $401.12/month (Course: $340 + Material: $28 + GST) - 2 lessons per week × 2 hours each
+- **Chemistry**: $401.12/month (Course: $340 + Material: $28 + GST) - 1 lesson per week × 2 hours
+- **Physics**: $401.12/month (Course: $340 + Material: $28 + GST) - 1 lesson per week × 2 hours
+- **Biology**: $401.12/month (Course: $340 + Material: $28 + GST) - 1 lesson per week × 2 hours
+- **Economics**: $401.12/month (Course: $340 + Material: $28 + GST) - 1 lesson per week × 2 hours
+
 **J2 Classes:**
 - **Math**: $444.72/month (Course: $380 + Material: $28 + GST) - 2 lessons per week × 1.5 hours each
 - **Chemistry**: $412.02/month (Course: $350 + Material: $28 + GST) - 1 lesson per week × 2 hours
