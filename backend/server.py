@@ -162,7 +162,9 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 - **Note**: January 2026 has NO school holiday weeks - classes run normally throughout January
 
 **SPECIAL ARRANGEMENTS:**
-- **March & September**: Despite school holidays, classes still conducted as "extra token lessons" to offset future/past cancellations due to tutor sick leave, company events, etc.
+- **March School Holiday (16-22 Mar)**: RMSS still conducts classes as "extra token lessons" 
+- **September School Holiday (7-13 Sep)**: RMSS still conducts classes as "extra token lessons"
+- These extra tokens offset future/past cancellations due to tutor sick leave, company events, etc.
 
 **MONTHLY FEE SETTLEMENT WEEKS (4th week collection):**
 - **January**: 26-31 | **February**: 23-28 | **March**: 30-31
