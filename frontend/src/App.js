@@ -247,7 +247,7 @@ const RMSSHomepage = () => {
       </footer>
 
       {/* Chat Widget */}
-      <ChatWidget />
+      <SimpleChatWidget />
     </div>
   );
 };
