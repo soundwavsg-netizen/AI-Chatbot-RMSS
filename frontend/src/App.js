@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ChatWidget from "./components/ChatWidget";
+import SimpleChatWidget from "./components/SimpleChatWidget";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
