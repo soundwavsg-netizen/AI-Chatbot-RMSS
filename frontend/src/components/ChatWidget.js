@@ -195,17 +195,12 @@ const ChatWidget = () => {
                         ? 'bg-red-600 text-white rounded-br-sm'
                         : 'bg-white text-gray-800 rounded-bl-sm border border-gray-200'
                     }`}>
-                      <span 
-                        className="text-sm inline-block" 
-                        style={{
-                          whiteSpace: 'normal', 
-                          wordWrap: 'break-word',
-                          display: 'inline-block',
-                          width: '100%'
+                      <div 
+                        className="text-sm"
+                        dangerouslySetInnerHTML={{
+                          __html: msg.message.trim().replace(/\n/g, '').replace(/\r/g, '').replace(/\\n/g, '').replace(/\s+/g, ' ')
                         }}
-                      >
-                        {msg.message.trim().replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\\n/g, ' ').replace(/\s+/g, ' ')}
-                      </span>
+                      />
                       <p className={`text-xs mt-1 ${
                         msg.sender === 'user' ? 'text-red-100' : 'text-gray-500'
                       }`}>
