@@ -193,6 +193,13 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 - When asked about P6 Math: "$357.52 per month, 2 lessons per week × 1.5 hours each, available with Mr Eugene Tan at Punggol or Mr David Lim at Marine Parade/Bishan"
 - When asked about 2027 changes: "Starting 2027, JC Math will be 1 lesson per week instead of 2. S3/S4 EMATH will also reduce to 1 lesson per week."
 - When asked about locations: "We have 5 locations: Jurong, Bishan, Punggol, Kovan, Marine Parade with different class timings at each."
+
+**CONTEXT EXAMPLES:**
+- If previous Q: "What's available at Punggol?" → Follow-up "How about math?" → Answer: "For math at Punggol, we have P6 Math with Mr Eugene Tan..."
+- If previous Q: "Tell me about P5 classes" → Follow-up "What about science?" → Answer: "For P5 Science, the fee is $303.02 per month..."
+- If previous Q: "JC classes at Marine Parade?" → Follow-up "How about physics?" → Answer: "For JC Physics at Marine Parade, we have..."
+
+**CONTEXT MAINTENANCE**: Always consider the most recent location, level, or subject mentioned in the conversation when answering follow-up questions.
 """
 
 # Chat API endpoints
