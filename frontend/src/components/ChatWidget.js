@@ -189,19 +189,28 @@ const ChatWidget = () => {
               <div className="flex-1 overflow-y-auto p-4 space-y-4 chat-messages bg-gray-50" data-testid="chat-messages-container">
                 {messages.map((msg, index) => (
                   <div
-                    key={msg.id}
+                    key={`${msg.id}-${index}`}
                     className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} ${
                       msg.sender === 'user' ? 'message-user' : 'message-bot'
                     }`}
+                    style={{ marginBottom: '16px' }}
                   >
                     <div className={`max-w-[80%] p-3 rounded-lg ${
                       msg.sender === 'user'
                         ? 'bg-red-600 text-white rounded-br-sm'
                         : 'bg-white text-gray-800 rounded-bl-sm border border-gray-200'
                     }`}>
-                      <div className="text-sm" style={{whiteSpace: 'normal', wordWrap: 'break-word'}}>
+                      <span 
+                        className="text-sm inline-block" 
+                        style={{
+                          whiteSpace: 'normal', 
+                          wordWrap: 'break-word',
+                          display: 'inline-block',
+                          width: '100%'
+                        }}
+                      >
                         {msg.message.trim().replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\\n/g, ' ').replace(/\s+/g, ' ')}
-                      </div>
+                      </span>
                       <p className={`text-xs mt-1 ${
                         msg.sender === 'user' ? 'text-red-100' : 'text-gray-500'
                       }`}>
