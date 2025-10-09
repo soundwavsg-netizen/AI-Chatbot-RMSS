@@ -248,13 +248,13 @@ const WhatsAppBot = () => {
             }}>
               <div style={{
                 fontSize: '14px',
-                lineHeight: '1.4',
+                lineHeight: '1.5',
                 marginBottom: '4px',
-                whiteSpace: 'pre-wrap',
+                whiteSpace: 'pre-line',
                 wordWrap: 'break-word',
                 color: '#303030'
               }}>
-                {msg.text}
+                {msg.text.split('\\n').join('\n')}
               </div>
               <div style={{
                 fontSize: '11px',
