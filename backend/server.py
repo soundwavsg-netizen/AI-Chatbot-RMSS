@@ -97,6 +97,20 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 - **Science**: $288.85/month (Course: $250 + Material: $15 + GST) - 1 lesson/week × 2 hours  
 - **Chinese**: $288.85/month (Course: $250 + Material: $15 + GST) - 1 lesson/week × 2 hours
 
+**P5 Classes:**
+- **Math**: $346.62/month (Course: $300 + Material: $18 + GST) - 2 lessons/week × 1.5 hours each
+- **Science**: $303.02/month (Course: $260 + Material: $18 + GST) - 1 lesson/week × 2 hours  
+- **English**: $299.75/month (Course: $260 + Material: $15 + GST) - 1 lesson/week × 2 hours
+- **Chinese**: $299.75/month (Course: $260 + Material: $15 + GST) - 1 lesson/week × 2 hours
+- **Chinese Enrichment**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 lesson/week × 2 hours
+
+**P6 Classes:**
+- **Math**: $357.52/month (Course: $310 + Material: $18 + GST) - 2 lessons/week × 1.5 hours each
+- **Science**: $313.92/month (Course: $270 + Material: $18 + GST) - 1 lesson/week × 2 hours
+- **English**: $310.65/month (Course: $270 + Material: $15 + GST) - 1 lesson/week × 2 hours
+- **Chinese**: $310.65/month (Course: $270 + Material: $15 + GST) - 1 lesson/week × 2 hours
+- **Chinese Enrichment**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 lesson/week × 2 hours
+
 **SECONDARY SCHOOL CLASSES (S1-S4) - 2026:**
 
 **S1 Classes (All 2 lessons/week):**
