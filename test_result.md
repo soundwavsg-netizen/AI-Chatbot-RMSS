@@ -177,9 +177,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Context Memory System Testing"
+    - "Context Memory System - P6 Math pricing accuracy"
+    - "Context Memory System - Location context retention"
   stuck_tasks:
-    - "Context Memory System - Critical pricing errors in conversation flows"
+    - "Context Memory System - P6 Math returns P5 pricing in conversation flows"
+    - "Context Memory System - Location-first queries lose context"
   test_all: false
   test_priority: "high_first"
 
