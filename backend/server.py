@@ -493,7 +493,7 @@ async def chat_with_ai(request: ChatRequest):
         
         # Return with manual dict to bypass any Pydantic issues
         return {
-            "response": final_response.replace('\n', '').replace('\r', '').replace('\\n', '').strip(),
+            "response": cleaned_response.replace('\n', '').replace('\r', '').replace('\\n', '').strip(),
             "session_id": session_id,
             "message_id": ai_msg_id
         }
