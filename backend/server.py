@@ -564,8 +564,21 @@ async def chat_with_ai(request: ChatRequest):
                             break
                     
                     if subject_found:
-                        enhanced_prompt = f"Provide detailed information for {subject_found} at {user_location} location including pricing, schedule, and tutors."
-                        conversation_context += f"**CRITICAL CONTEXT**: User asked about {subject_found}, AI asked for location, user replied {user_location}. Provide {subject_found} details for {user_location} ONLY.\n\n"
+                        # Create very explicit instructions for pricing accuracy
+                        pricing_map = {
+                            "J1 Math": "$401.12", "J2 Math": "$444.72",
+                            "P2 Math": "$261.60", "P3 Math": "$277.95", "P4 Math": "$332.45", 
+                            "P5 Math": "$346.62", "P6 Math": "$357.52",
+                            "S1 Math": "$370.60", "S2 Math": "$381.50", 
+                            "S3 EMath": "$343.35", "S3 AMath": "$397.85",
+                            "S4 EMath": "$408.75", "S4 AMath": "$408.75"
+                        }
+                        
+                        correct_price = pricing_map.get(subject_found, "Contact for pricing")
+                        
+                        enhanced_prompt = f"The user asked about {subject_found} and specified {user_location} location. Provide ONLY {subject_found} information for {user_location}. The correct price is {correct_price}. Include schedule, tutors, and other details for {subject_found} at {user_location}."
+                        conversation_context += f"**PRICING CRITICAL**: {subject_found} costs exactly {correct_price} - use this exact price, not any other level's pricing.\n"
+                        conversation_context += f"**CONTEXT**: User wants {subject_found} details for {user_location} location specifically.\n\n"
         
         # Create the complete prompt with context
         full_prompt = conversation_context + "USER'S CURRENT REQUEST: " + enhanced_prompt + "\n\nProvide helpful RMSS information based on the conversation context above."
