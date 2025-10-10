@@ -35,12 +35,10 @@ const WhatsAppBot = () => {
 
   const cleanText = (text) => {
     if (!text || typeof text !== 'string') return '';
+    // Only clean excessive whitespace, preserve intentional line breaks
     return text
-      .replace(/\\n/g, ' ')
-      .replace(/\n/g, ' ')
-      .replace(/\r\n/g, ' ')
-      .replace(/\r/g, ' ')
-      .replace(/\s+/g, ' ')
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
       .trim();
   };
 
