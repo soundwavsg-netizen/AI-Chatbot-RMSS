@@ -526,17 +526,20 @@ async def chat_with_ai(request: ChatRequest):
             "content": request.message
         })
         
-        # Use emergent LLM integration directly with conversation history
-        llm = LlmChat(api_key=EMERGENT_LLM_KEY)
+        # Use emergent LLM integration with session-based chat
+        llm = LlmChat(
+            api_key=EMERGENT_LLM_KEY,
+            session_id=session_id,
+            system_message=RMSS_SYSTEM_MESSAGE,
+            initial_messages=[
+                {"role": msg["sender"] if msg["sender"] in ["user", "assistant"] else "user", "content": msg["message"]}
+                for msg in recent_messages
+            ]
+        )
         
-        # Convert conversation history to UserMessage format for LlmChat
-        messages = []
-        for msg in conversation_history:
-            messages.append(UserMessage(content=msg["content"]))
-        
-        # Send conversation with full history to maintain context
+        # Send the current user message
         response = await llm.chat(
-            messages=messages,
+            UserMessage(content=request.message),
             model="gpt-4o-mini",
             max_tokens=1000,
             temperature=0.7
