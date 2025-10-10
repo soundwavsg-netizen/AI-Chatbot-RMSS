@@ -32,17 +32,10 @@ const SimpleChatWidget = () => {
 
   const cleanText = (text) => {
     if (!text || typeof text !== 'string') return '';
-    // Aggressively clean all possible newline variants
+    // Only clean excessive whitespace, preserve intentional line breaks
     return text
-      .replace(/\\n/g, ' ')
-      .replace(/\n/g, ' ')
-      .replace(/\r\n/g, ' ')
-      .replace(/\r/g, ' ')
-      .replace(/\u000A/g, ' ')
-      .replace(/\u000D/g, ' ')
-      .replace(/\u2028/g, ' ')
-      .replace(/\u2029/g, ' ')
-      .replace(/\s+/g, ' ')
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
       .trim();
   };
 
