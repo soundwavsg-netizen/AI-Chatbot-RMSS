@@ -135,6 +135,18 @@ backend:
         agent: "testing"
         comment: "SYSTEM MESSAGE UPDATE VERIFIED: ✅ All extracted PDF data is correctly integrated and accessible via chat API. Comprehensive system message contains accurate 2026 pricing, schedules, tutors by location, holiday dates, and fee settlement periods. Chat endpoint responding correctly with detailed information from all 11 PDFs (P2, P3, P4, J1, J2, S1, calendar). Core functionality working as expected."
 
+  - task: "Context Memory System for Conversation Flows"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "CRITICAL CONTEXT MEMORY FAILURES IDENTIFIED ❌ Comprehensive testing reveals MAJOR ISSUES: 1) P6 Math pricing error - AI returns $346.62 (P5 pricing) instead of correct $357.52 when asked 'P6 math' → 'Punggol' in conversation flow, but gives correct price when asked directly. 2) Context awareness failures - AI not maintaining conversation context for follow-up questions, asks 'which subject' instead of remembering previous context. 3) Location-specific queries failing - AI asks for clarification instead of providing location-specific info. Context Memory Tests: 84.6% success (11/13), Backend Overall: 71.4% success (10/14). CRITICAL: Context memory system has fundamental issues causing wrong pricing information and poor user experience. The conversation flow logic in lines 504-577 of server.py needs debugging - context enhancement is not working properly for all scenarios."
+
 frontend:
   - task: "Embedded Chat Widget functionality"
     implemented: true
