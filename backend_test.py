@@ -306,6 +306,286 @@ class RMSSChatbotTester:
             self.log_test("Fee Settlement Periods", False, f"No fee settlement information found: {ai_response[:200]}...")
             return False
 
+    def test_context_memory_j2_math_bishan_flow(self):
+        """CRITICAL: Test J2 Math → Bishan conversation flow (User's exact issue)"""
+        # Create new session for this test
+        test_session_id = str(uuid.uuid4())
+        
+        # Message 1: "J2 math?" → Should ask for location
+        message1 = "J2 math?"
+        response1 = self.send_chat_message(message1, test_session_id)
+        
+        if "error" in response1:
+            self.log_test("Context Memory - J2 Math → Bishan Flow", False, f"API Error in message 1: {response1['error']}")
+            return False
+            
+        ai_response1 = response1.get("response", "").lower()
+        
+        # Should ask for location
+        location_keywords = ["location", "where", "which location", "interested in"]
+        asks_for_location = any(keyword in ai_response1 for keyword in location_keywords)
+        
+        if not asks_for_location:
+            self.log_test("Context Memory - J2 Math → Bishan Flow", False, f"AI didn't ask for location after 'J2 math?': {ai_response1[:200]}...")
+            return False
+            
+        time.sleep(1)
+        
+        # Message 2: "Bishan" → Should provide J2 Math details for Bishan ($444.72, not ask what subject)
+        message2 = "Bishan"
+        response2 = self.send_chat_message(message2, test_session_id)
+        
+        if "error" in response2:
+            self.log_test("Context Memory - J2 Math → Bishan Flow", False, f"API Error in message 2: {response2['error']}")
+            return False
+            
+        ai_response2 = response2.get("response", "").lower()
+        
+        # Critical checks:
+        # 1. Should NOT ask "which subject" again
+        asks_subject_again = any(phrase in ai_response2 for phrase in ["which subject", "what subject", "which level"])
+        
+        # 2. Should provide J2 Math pricing ($444.72)
+        has_correct_pricing = "$444.72" in response2.get("response", "") or "444.72" in ai_response2
+        
+        # 3. Should mention J2 Math context
+        has_j2_context = any(phrase in ai_response2 for phrase in ["j2 math", "j2 mathematics", "junior college math"])
+        
+        if asks_subject_again:
+            self.log_test("Context Memory - J2 Math → Bishan Flow", False, f"CRITICAL: AI asked 'which subject' again instead of remembering J2 Math context: {ai_response2[:200]}...")
+            return False
+            
+        if not has_correct_pricing:
+            self.log_test("Context Memory - J2 Math → Bishan Flow", False, f"CRITICAL: Missing correct J2 Math pricing ($444.72) in response: {ai_response2[:200]}...")
+            return False
+            
+        if not has_j2_context:
+            self.log_test("Context Memory - J2 Math → Bishan Flow", False, f"CRITICAL: AI didn't maintain J2 Math context in response: {ai_response2[:200]}...")
+            return False
+            
+        self.log_test("Context Memory - J2 Math → Bishan Flow", True, "✅ Perfect context memory: Asked location → Provided J2 Math details for Bishan with correct pricing $444.72")
+        return True
+
+    def test_context_memory_p6_math_punggol_flow(self):
+        """CRITICAL: Test P6 Math → Punggol conversation flow"""
+        # Create new session for this test
+        test_session_id = str(uuid.uuid4())
+        
+        # Message 1: "P6 math" → Should ask for location
+        message1 = "P6 math"
+        response1 = self.send_chat_message(message1, test_session_id)
+        
+        if "error" in response1:
+            self.log_test("Context Memory - P6 Math → Punggol Flow", False, f"API Error in message 1: {response1['error']}")
+            return False
+            
+        ai_response1 = response1.get("response", "").lower()
+        
+        # Should ask for location
+        location_keywords = ["location", "where", "which location", "interested in"]
+        asks_for_location = any(keyword in ai_response1 for keyword in location_keywords)
+        
+        if not asks_for_location:
+            self.log_test("Context Memory - P6 Math → Punggol Flow", False, f"AI didn't ask for location after 'P6 math': {ai_response1[:200]}...")
+            return False
+            
+        time.sleep(1)
+        
+        # Message 2: "Punggol" → Should provide P6 Math details for Punggol ($357.52, NOT $346.62)
+        message2 = "Punggol"
+        response2 = self.send_chat_message(message2, test_session_id)
+        
+        if "error" in response2:
+            self.log_test("Context Memory - P6 Math → Punggol Flow", False, f"API Error in message 2: {response2['error']}")
+            return False
+            
+        ai_response2 = response2.get("response", "").lower()
+        
+        # Critical checks:
+        # 1. Should NOT ask "which subject" again
+        asks_subject_again = any(phrase in ai_response2 for phrase in ["which subject", "what subject", "which level"])
+        
+        # 2. Should provide CORRECT P6 Math pricing ($357.52, NOT P5 pricing $346.62)
+        has_correct_pricing = "$357.52" in response2.get("response", "") or "357.52" in ai_response2
+        has_wrong_pricing = "$346.62" in response2.get("response", "") or "346.62" in ai_response2
+        
+        # 3. Should mention P6 Math context
+        has_p6_context = any(phrase in ai_response2 for phrase in ["p6 math", "p6 mathematics", "primary 6 math"])
+        
+        if asks_subject_again:
+            self.log_test("Context Memory - P6 Math → Punggol Flow", False, f"CRITICAL: AI asked 'which subject' again instead of remembering P6 Math context: {ai_response2[:200]}...")
+            return False
+            
+        if has_wrong_pricing:
+            self.log_test("Context Memory - P6 Math → Punggol Flow", False, f"CRITICAL: AI returned P5 pricing ($346.62) instead of correct P6 pricing ($357.52): {ai_response2[:200]}...")
+            return False
+            
+        if not has_correct_pricing:
+            self.log_test("Context Memory - P6 Math → Punggol Flow", False, f"CRITICAL: Missing correct P6 Math pricing ($357.52) in response: {ai_response2[:200]}...")
+            return False
+            
+        if not has_p6_context:
+            self.log_test("Context Memory - P6 Math → Punggol Flow", False, f"CRITICAL: AI didn't maintain P6 Math context in response: {ai_response2[:200]}...")
+            return False
+            
+        self.log_test("Context Memory - P6 Math → Punggol Flow", True, "✅ Perfect context memory: Asked location → Provided P6 Math details for Punggol with correct pricing $357.52")
+        return True
+
+    def test_context_memory_location_first_flow(self):
+        """CRITICAL: Test Location-First Flow (Marine Parade → J1 Math)"""
+        # Create new session for this test
+        test_session_id = str(uuid.uuid4())
+        
+        # Message 1: "Classes at Marine Parade" → Should ask which subject/level
+        message1 = "Classes at Marine Parade"
+        response1 = self.send_chat_message(message1, test_session_id)
+        
+        if "error" in response1:
+            self.log_test("Context Memory - Location-First Flow", False, f"API Error in message 1: {response1['error']}")
+            return False
+            
+        ai_response1 = response1.get("response", "").lower()
+        
+        # Should ask for subject/level
+        subject_keywords = ["which subject", "what subject", "which level", "what level", "subject or level"]
+        asks_for_subject = any(keyword in ai_response1 for keyword in subject_keywords)
+        
+        if not asks_for_subject:
+            self.log_test("Context Memory - Location-First Flow", False, f"AI didn't ask for subject/level after 'Classes at Marine Parade': {ai_response1[:200]}...")
+            return False
+            
+        time.sleep(1)
+        
+        # Message 2: "J1 Math" → Should provide J1 Math details for Marine Parade
+        message2 = "J1 Math"
+        response2 = self.send_chat_message(message2, test_session_id)
+        
+        if "error" in response2:
+            self.log_test("Context Memory - Location-First Flow", False, f"API Error in message 2: {response2['error']}")
+            return False
+            
+        ai_response2 = response2.get("response", "").lower()
+        
+        # Critical checks:
+        # 1. Should NOT ask "which location" again
+        asks_location_again = any(phrase in ai_response2 for phrase in ["which location", "what location", "where"])
+        
+        # 2. Should provide J1 Math pricing ($401.12)
+        has_correct_pricing = "$401.12" in response2.get("response", "") or "401.12" in ai_response2
+        
+        # 3. Should mention Marine Parade context
+        has_location_context = "marine parade" in ai_response2
+        
+        # 4. Should mention J1 Math context
+        has_j1_context = any(phrase in ai_response2 for phrase in ["j1 math", "j1 mathematics", "junior college math"])
+        
+        if asks_location_again:
+            self.log_test("Context Memory - Location-First Flow", False, f"CRITICAL: AI asked 'which location' again instead of remembering Marine Parade context: {ai_response2[:200]}...")
+            return False
+            
+        if not has_correct_pricing:
+            self.log_test("Context Memory - Location-First Flow", False, f"CRITICAL: Missing correct J1 Math pricing ($401.12) in response: {ai_response2[:200]}...")
+            return False
+            
+        if not has_location_context:
+            self.log_test("Context Memory - Location-First Flow", False, f"CRITICAL: AI didn't maintain Marine Parade context in response: {ai_response2[:200]}...")
+            return False
+            
+        if not has_j1_context:
+            self.log_test("Context Memory - Location-First Flow", False, f"CRITICAL: AI didn't understand J1 Math context in response: {ai_response2[:200]}...")
+            return False
+            
+        self.log_test("Context Memory - Location-First Flow", True, "✅ Perfect context memory: Asked subject → Provided J1 Math details for Marine Parade with correct pricing $401.12")
+        return True
+
+    def test_response_formatting_comprehensive(self):
+        """Test comprehensive response formatting with line breaks and emojis"""
+        message = "Tell me about P6 Math at Bishan"
+        response = self.send_chat_message(message)
+        
+        if "error" in response:
+            self.log_test("Response Formatting - Comprehensive", False, f"API Error: {response['error']}")
+            return False
+            
+        ai_response = response.get("response", "")
+        
+        # Check for proper formatting elements
+        has_emojis = any(emoji in ai_response for emoji in ["📊", "💰", "📅", "👨‍🏫", "🏫", "📚"])
+        has_line_breaks = "\n" in ai_response
+        not_single_paragraph = ai_response.count("\n") >= 2  # Multiple line breaks
+        
+        # Check for structured information
+        has_fee_info = "$357.52" in ai_response or "357.52" in ai_response
+        has_schedule_info = any(word in ai_response.lower() for word in ["lesson", "hour", "week"])
+        
+        formatting_score = 0
+        if has_emojis:
+            formatting_score += 1
+        if has_line_breaks:
+            formatting_score += 1
+        if not_single_paragraph:
+            formatting_score += 1
+        if has_fee_info:
+            formatting_score += 1
+        if has_schedule_info:
+            formatting_score += 1
+            
+        if formatting_score >= 4:
+            self.log_test("Response Formatting - Comprehensive", True, f"Excellent formatting: emojis={has_emojis}, line_breaks={has_line_breaks}, structured={not_single_paragraph}")
+            return True
+        else:
+            self.log_test("Response Formatting - Comprehensive", False, f"Poor formatting score: {formatting_score}/5 - needs improvement")
+            return False
+
+    def test_professional_conversation_flow(self):
+        """Test professional conversation flow maintenance"""
+        # Create new session for this test
+        test_session_id = str(uuid.uuid4())
+        
+        # Multi-turn conversation to test flow
+        conversation = [
+            ("Hello, I'm interested in math classes", "greeting"),
+            ("P5 level", "level_specification"),
+            ("What about Jurong location?", "location_follow_up")
+        ]
+        
+        all_responses_professional = True
+        context_maintained = True
+        
+        for i, (message, stage) in enumerate(conversation):
+            response = self.send_chat_message(message, test_session_id)
+            
+            if "error" in response:
+                self.log_test(f"Professional Flow - {stage}", False, f"API Error: {response['error']}")
+                all_responses_professional = False
+                continue
+                
+            ai_response = response.get("response", "").lower()
+            
+            # Check for professional tone
+            professional_indicators = ["thank you", "happy to help", "would you like", "can i help", "let me", "i'd be happy"]
+            is_professional = any(indicator in ai_response for indicator in professional_indicators)
+            
+            if not is_professional:
+                self.log_test(f"Professional Flow - {stage}", False, f"Response lacks professional tone: {ai_response[:100]}...")
+                all_responses_professional = False
+                
+            # Check context maintenance in later stages
+            if stage == "location_follow_up":
+                has_p5_context = any(phrase in ai_response for phrase in ["p5", "primary 5"])
+                if not has_p5_context:
+                    self.log_test(f"Professional Flow - Context Maintenance", False, f"Lost P5 context in location follow-up: {ai_response[:100]}...")
+                    context_maintained = False
+                    
+            time.sleep(1)
+            
+        if all_responses_professional and context_maintained:
+            self.log_test("Professional Conversation Flow", True, "Maintained professional tone and context throughout conversation")
+            return True
+        else:
+            self.log_test("Professional Conversation Flow", False, f"Issues with professional tone or context maintenance")
+            return False
+
     def run_all_tests(self):
         """Run all tests and provide summary"""
         print("🚀 Starting RMSS AI Chatbot Backend Tests")
