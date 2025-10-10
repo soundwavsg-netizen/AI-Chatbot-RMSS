@@ -542,7 +542,7 @@ async def chat_with_ai(request: ChatRequest):
             temperature=0.7
         )
         
-        ai_response = response.choices[0].message.content
+        ai_response = response.content
         
         # Store user message in database
         user_msg_dict = {
