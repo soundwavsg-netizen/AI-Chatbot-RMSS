@@ -139,13 +139,16 @@ backend:
     implemented: true
     working: false
     file: "/app/backend/server.py"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
     needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "CRITICAL CONTEXT MEMORY FAILURES IDENTIFIED ❌ Comprehensive testing reveals MAJOR ISSUES: 1) P6 Math pricing error - AI returns $346.62 (P5 pricing) instead of correct $357.52 when asked 'P6 math' → 'Punggol' in conversation flow, but gives correct price when asked directly. 2) Context awareness failures - AI not maintaining conversation context for follow-up questions, asks 'which subject' instead of remembering previous context. 3) Location-specific queries failing - AI asks for clarification instead of providing location-specific info. Context Memory Tests: 84.6% success (11/13), Backend Overall: 71.4% success (10/14). CRITICAL: Context memory system has fundamental issues causing wrong pricing information and poor user experience. The conversation flow logic in lines 504-577 of server.py needs debugging - context enhancement is not working properly for all scenarios."
+      - working: false
+        agent: "testing"
+        comment: "CONTEXT MEMORY SYSTEM PARTIALLY FIXED ⚠️ Fixed LlmChat integration issues and improved context building. SUCCESS: J2 Math → Bishan Flow now working perfectly (✅ asks location → provides correct $444.72 pricing with tutor info). REMAINING CRITICAL ISSUES: 1) P6 Math → Punggol Flow: AI returns P5 pricing ($346.62) instead of correct P6 pricing ($357.52) - pricing confusion between levels. 2) Location-First Flow: AI asks 'which location' when user already mentioned Marine Parade - context not maintained. SUCCESS RATE: 1/3 critical flows (33.3%). The manual context building approach works but needs refinement for level-specific pricing accuracy and location context retention."
 
 frontend:
   - task: "Embedded Chat Widget functionality"
