@@ -125,6 +125,28 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 - **English**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 × 2 hours/week
 - **Chinese**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 × 2 hours/week
 
+**S3 Classes:**
+- **EMath**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **AMath**: $397.85/month (Course: $340 + Material: $25 + GST) - 2 lessons/week × 1.5 hours each
+- **Chemistry**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **Physics**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **Biology**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **Combined Science (Phy/Chem)**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **Combined Science (Bio/Chem)**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **English**: $332.45/month (Course: $290 + Material: $15 + GST) - 1 lesson/week × 2 hours
+- **Chinese**: $332.45/month (Course: $290 + Material: $15 + GST) - 1 lesson/week × 2 hours
+
+**S4 Classes:**
+- **EMath**: $408.75/month (Course: $350 + Material: $25 + GST) - 2 lessons/week × 1.5 hours each
+- **AMath**: $408.75/month (Course: $350 + Material: $25 + GST) - 2 lessons/week × 1.5 hours each
+- **Chemistry**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **Physics**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **Biology**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **Combined Science (Phy/Chem)**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **Combined Science (Bio/Chem)**: $343.35/month (Course: $290 + Material: $25 + GST) - 1 lesson/week × 2 hours
+- **English**: $332.45/month (Course: $290 + Material: $15 + GST) - 1 lesson/week × 2 hours
+- **Chinese**: $332.45/month (Course: $290 + Material: $15 + GST) - 1 lesson/week × 2 hours
+
 **JUNIOR COLLEGE CLASSES (J1-J2) - 2026:**
 
 **J1 Classes (All 1 lesson/week × 2 hours each, except Math):**
