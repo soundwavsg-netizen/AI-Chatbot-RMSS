@@ -506,20 +506,31 @@ async def chat_with_ai(request: ChatRequest):
             {"session_id": session_id}
         ).sort("timestamp", 1).limit(20).to_list(length=20)  # Get chronological order
         
-        # Use emergent LLM integration with session-based chat
+        # Build complete conversation context manually for better control
+        conversation_context = RMSS_SYSTEM_MESSAGE + "\n\n"
+        
+        # Add conversation history
+        if recent_messages:
+            conversation_context += "Previous conversation:\n"
+            for msg in recent_messages:
+                role = "User" if msg["sender"] == "user" else "Assistant"
+                conversation_context += f"{role}: {msg['message']}\n"
+            conversation_context += "\n"
+        
+        # Add current user message
+        conversation_context += f"User: {request.message}\nAssistant:"
+        
+        # Use LlmChat with the complete context as a single message
         llm = LlmChat(
             api_key=EMERGENT_LLM_KEY,
             session_id=session_id,
-            system_message=RMSS_SYSTEM_MESSAGE,
-            initial_messages=[
-                {"role": msg["sender"] if msg["sender"] in ["user", "assistant"] else "user", "content": msg["message"]}
-                for msg in recent_messages
-            ]
+            system_message="You are an AI assistant for Raymond's Math & Science Studio (RMSS). Respond based on the context provided.",
+            initial_messages=[]
         )
         
-        # Send the current user message
+        # Send the complete context as the user message
         response = await llm.with_model("openai", "gpt-4o-mini").send_message(
-            UserMessage(text=request.message)
+            UserMessage(text=conversation_context)
         )
         
         ai_response = response
