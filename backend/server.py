@@ -508,17 +508,24 @@ async def chat_with_ai(request: ChatRequest):
         
         # Build complete conversation context manually for better control
         conversation_context = RMSS_SYSTEM_MESSAGE + "\n\n"
+        conversation_context += "CRITICAL INSTRUCTIONS FOR CONTEXT MEMORY:\n"
+        conversation_context += "- ALWAYS remember what the user asked about in previous messages\n"
+        conversation_context += "- If user mentions a subject/level, remember it for follow-up questions\n"
+        conversation_context += "- If user mentions a location, remember it for follow-up questions\n"
+        conversation_context += "- Provide specific RMSS information, not generic education advice\n"
+        conversation_context += "- Use the exact pricing from the system message above\n\n"
         
-        # Add conversation history
+        # Add conversation history with clear context markers
         if recent_messages:
-            conversation_context += "Previous conversation:\n"
+            conversation_context += "CONVERSATION HISTORY:\n"
             for msg in recent_messages:
                 role = "User" if msg["sender"] == "user" else "Assistant"
                 conversation_context += f"{role}: {msg['message']}\n"
-            conversation_context += "\n"
+            conversation_context += "\nBased on the conversation history above, respond to the current user message while maintaining context.\n\n"
         
         # Add current user message
-        conversation_context += f"User: {request.message}\nAssistant:"
+        conversation_context += f"CURRENT USER MESSAGE: {request.message}\n\n"
+        conversation_context += "RMSS Assistant Response:"
         
         # Use LlmChat with the complete context as a single message
         llm = LlmChat(
