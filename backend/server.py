@@ -158,7 +158,87 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 
 **EXAM PREPARATION PERIODS:**
 - **MYE Preparation**: March 16-20, 2026
-- **FYE Preparation**: September 7-13, 2026 
+- **FYE Preparation**: September 7-13, 2026
+
+👨‍🏫 **KEY TUTORS BY LOCATION (2026):**
+
+**JURONG:**
+- **P2 Math**: Ms Jade Wong, Mr Ian Chua
+- **P2 English**: Ms Deborah Wong
+- **P3/P4 Math**: Ms Jade Wong, Ms Hannah Look, Mr Ian Chua
+- **P3/P4 Science**: Ms Jade Wong, Ms Hannah Look, Mr Ian Chua  
+- **P3/P4 English**: Ms Deborah Wong
+- **J1 Chemistry**: Ms Chan S.Q.
+- **J2 Chemistry**: Ms Chan S.Q.
+
+**KOVAN:**
+- **P2 Math**: Mr Alan Foo, Mr Samuel Koh
+- **P2 English**: Mr Winston Lin
+- **P3/P4 Math**: Mr Alan Foo, Mr Samuel Koh
+- **P3/P4 Science**: Mr Alan Foo, Mr Samuel Koh
+- **P3/P4 English**: Mr Winston Lin
+- **J1 Math**: Mr Kenji Ng
+- **J2 Math**: Mr Kenji Ng
+
+**PUNGGOL:**
+- **P3/P4 Math**: Mr Eugene Tan (HOD), Mr Aaron Chow, Mr Teo P.H.
+- **P3/P4 English**: Mr Pang W.F. (HOD)
+- **P3/P4 Science**: Mr Eugene Tan (HOD), Mr Aaron Chow, Mr Teo P.H.
+- **P3/P4 Chinese**: Ms Tan S.F.
+- **S1 Math**: Mr David Cao, Mr Ang C.X., Ms Kathy Liew
+- **S1 Chinese**: Mdm Zhang (HOD), Ms Tan S.F.
+- **S1 English**: Mr Pang W.F. (HOD)
+- **S1 Science**: Ms Alvina Tan, Ms Karmen Soon
+- **J1 Math**: Mr Ang C.X.
+- **J2 Math**: Mr Ang C.X.
+
+**MARINE PARADE:**
+- **P3/P4 Math**: Mr David Lim (DY HOD), Mr Benjamin Fok, Mr Lin K.W., Mr Alman
+- **P3/P4 English**: Mrs Cheong
+- **P3/P4 Science**: Mr David Lim (DY HOD), Mr Benjamin Fok, Mr Lin K.W., Mr Alman
+- **P3/P4 Chinese**: Mdm Zhang (HOD)
+- **S1 Math**: Mr Sean Yeo (HOD), Mr John Lee (DY HOD), Mr Leonard Teo, Mr Sean Tan, others
+- **S1 English**: Mrs Cheong
+- **S1 Chinese**: Mdm Zhang (HOD)
+- **S1 Science**: Mr Desmond Tham (HOD), Ms Melissa Lim (DY HOD), Mr Victor Wu, others
+- **J1 Math**: Mr Sean Yeo (HOD), Mr John Lee (DY HOD), Mr Sean Phua, Mr Sean Tan, Mr Leonard Teo
+- **J1 Economics**: Mrs Cheong
+- **J1 Biology**: Mr Victor Wu
+- **J1 Chemistry**: Mr Leonard Teo
+- **J1 Physics**: Mr Ronnie Quek
+- **J2 Math**: Mr Sean Yeo (HOD), Mr John Lee (DY HOD), Mr Leonard Teo, Mr Sean Tan, Mr Sean Phua
+- **J2 Economics**: Mrs Cheong
+- **J2 Biology**: Mr Victor Wu
+- **J2 Chemistry**: Mr Leonard Teo
+- **J2 Physics**: Mr Ronnie Quek
+
+**BISHAN:**
+- **P2 Chinese**: Mdm Huang Yu
+- **P2 English**: Ms Kai Ning
+- **P2 Math**: Mr Winston Loh, Mr Zech Zhuang
+- **P3/P4 Chinese**: Mdm Huang Yu
+- **P3/P4 English**: Ms Kai Ning, Mr David Lim (DY HOD)
+- **P3/P4 Math**: Mr David Lim (DY HOD), Mr Winston Loh, Ms Ong L.T., Mr Zech Zhuang, Mr Franklin Neo
+- **P3/P4 Science**: Mr David Lim (DY HOD), Mr Winston Loh, Ms Ong L.T., Mr Zech Zhuang, Mr Franklin Neo
+- **S1 Math**: Mr Sean Yeo (HOD), Mr John Lee (DY HOD), Mr Leonard Teo, Mr Sean Tan, others
+- **S1 English**: Mrs Cheong
+- **S1 Chinese**: Mdm Huang Yu, Ms Tan S.F.
+- **S1 Science**: Mr Desmond Tham (HOD), Ms Melissa Lim (DY HOD), Mr Wong Q.J., Mr Johnson Boh, Mr Jason Ang
+- **J1 Math**: Mr Sean Yeo (HOD), Mr John Lee (DY HOD), Mr Sean Phua, Mr Leonard Teo, Mr Sean Tan
+- **J1 Economics**: Mrs Cheong
+- **J1 Chemistry**: Mr Leonard Teo
+- **J1 Physics**: Mr Ronnie Quek
+- **J2 Math**: Mr Sean Yeo (HOD), Mr John Lee (DY HOD), Mr Leonard Teo, Mr Sean Tan, Mr Sean Phua
+- **J2 Economics**: Mrs Cheong
+- **J2 Chemistry**: Mr Leonard Teo
+- **J2 Physics**: Mr Ronnie Quek
+
+**GENERAL NOTES:**
+- **HOD** = Head of Department (Senior tutors)
+- **DY HOD** = Deputy Head of Department
+- **Multiple options**: Most subjects offer different time slots with different tutors
+- **Free trial lessons** available for new students
+- **Contact**: 6222 8222 for specific tutor preferences and enrollment 
 - **September School Holiday (7-13 Sep)**: RMSS still conducts classes as "extra token lessons"
 - These extra tokens offset future/past cancellations due to tutor sick leave, company events, etc.
 
