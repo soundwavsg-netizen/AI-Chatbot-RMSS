@@ -509,35 +509,63 @@ async def chat_with_ai(request: ChatRequest):
         # Reverse to get chronological order
         recent_messages.reverse()
         
-        # Build context from recent conversation
-        conversation_context = ""
+        # Analyze conversation context and modify the current message if needed
+        enhanced_message = request.message
+        context_instruction = ""
+        
         if recent_messages:
-            conversation_context = "\n\n**CONVERSATION CONTEXT - CRITICAL TO FOLLOW:**\n"
-            for msg in recent_messages[-6:]:  # Last 6 messages for context
-                sender = "User" if msg["sender"] == "user" else "AI Assistant"
-                conversation_context += f"{sender}: {msg['message']}\n"
+            last_ai_message = None
+            last_user_message = None
             
-            # Extract key context information
-            conversation_context += "\n**CRITICAL CONTEXT RULES:**\n"
-            conversation_context += "- If the user just answered a location question, provide info for the PREVIOUSLY mentioned subject/level at that location\n"
-            conversation_context += "- If the user just answered a subject/level question, provide info for that specific subject/level\n" 
-            conversation_context += "- Look at the conversation flow above - what was the user asking about before their current message?\n"
-            conversation_context += "- NEVER ask the same type of question twice in a row\n"
-            conversation_context += "- If AI asked 'which location?' and user provided location, give details for the previously mentioned subject\n"
-            conversation_context += "- If AI asked 'which subject?' and user provided subject, give details for that subject\n\n"
+            # Find the last AI and user messages
+            for msg in reversed(recent_messages):
+                if msg["sender"] == "assistant" and not last_ai_message:
+                    last_ai_message = msg["message"]
+                elif msg["sender"] == "user" and not last_user_message:
+                    last_user_message = msg["message"]
+                if last_ai_message and last_user_message:
+                    break
+            
+            # Check if this is a follow-up answer to a location or subject question
+            if last_ai_message:
+                # Context analysis
+                if "which location" in last_ai_message.lower() and any(loc.lower() in request.message.lower() for loc in ["marine parade", "punggol", "bishan", "jurong", "kovan"]):
+                    # User is answering a location question - extract the subject from AI's question
+                    if "j1 math" in last_ai_message.lower():
+                        context_instruction = f"\n\nCONTEXT: The user previously asked about J1 Math and you asked which location. They answered '{request.message}'. Provide J1 Math information for {request.message} location only."
+                        enhanced_message = f"J1 Math at {request.message}"
+                    elif "p6 math" in last_ai_message.lower():
+                        context_instruction = f"\n\nCONTEXT: The user previously asked about P6 Math and you asked which location. They answered '{request.message}'. Provide P6 Math information for {request.message} location only."
+                        enhanced_message = f"P6 Math at {request.message}"
+                    elif "s1 math" in last_ai_message.lower():
+                        context_instruction = f"\n\nCONTEXT: The user previously asked about S1 Math and you asked which location. They answered '{request.message}'. Provide S1 Math information for {request.message} location only."
+                        enhanced_message = f"S1 Math at {request.message}"
+                    # Add more subject patterns as needed
+                
+                elif "which subject" in last_ai_message.lower() or "which level" in last_ai_message.lower():
+                    # User is answering a subject/level question
+                    location_mentioned = ""
+                    for loc in ["marine parade", "punggol", "bishan", "jurong", "kovan"]:
+                        if loc in last_ai_message.lower():
+                            location_mentioned = loc
+                            break
+                    
+                    if location_mentioned:
+                        context_instruction = f"\n\nCONTEXT: The user previously asked about classes at {location_mentioned} and you asked which subject. They answered '{request.message}'. Provide {request.message} information for {location_mentioned} location only."
+                        enhanced_message = f"{request.message} at {location_mentioned}"
         
         # Enhance system message with conversation context
-        enhanced_system_message = RMSS_SYSTEM_MESSAGE + conversation_context
+        enhanced_system_message = RMSS_SYSTEM_MESSAGE + context_instruction
         
-        # Initialize chat with conversation context
+        # Initialize chat with conversation context  
         chat = LlmChat(
             api_key=EMERGENT_LLM_KEY,
             session_id=session_id,
             system_message=enhanced_system_message
         ).with_model("openai", "gpt-4o-mini")
         
-        # Create user message
-        user_message = UserMessage(text=request.message)
+        # Create user message with enhanced context
+        user_message = UserMessage(text=enhanced_message)
         
         # Get AI response
         ai_response = await chat.send_message(user_message)
