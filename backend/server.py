@@ -528,30 +528,51 @@ async def chat_with_ai(request: ChatRequest):
             
             # Check if this is a follow-up answer to a location or subject question
             if last_ai_message:
-                # Context analysis
-                if "which location" in last_ai_message.lower() and any(loc.lower() in request.message.lower() for loc in ["marine parade", "punggol", "bishan", "jurong", "kovan"]):
-                    # User is answering a location question - extract the subject from AI's question
-                    if "j1 math" in last_ai_message.lower():
-                        context_instruction = f"\n\nCONTEXT: The user previously asked about J1 Math and you asked which location. They answered '{request.message}'. Provide J1 Math information for {request.message} location only."
-                        enhanced_message = f"J1 Math at {request.message}"
-                    elif "p6 math" in last_ai_message.lower():
-                        context_instruction = f"\n\nCONTEXT: The user previously asked about P6 Math and you asked which location. They answered '{request.message}'. Provide P6 Math information for {request.message} location only."
-                        enhanced_message = f"P6 Math at {request.message}"
-                    elif "s1 math" in last_ai_message.lower():
-                        context_instruction = f"\n\nCONTEXT: The user previously asked about S1 Math and you asked which location. They answered '{request.message}'. Provide S1 Math information for {request.message} location only."
-                        enhanced_message = f"S1 Math at {request.message}"
-                    # Add more subject patterns as needed
+                # Comprehensive context analysis for ALL subject-location combinations
+                location_words = ["marine parade", "punggol", "bishan", "jurong", "kovan"]
+                current_location = None
                 
-                elif "which subject" in last_ai_message.lower() or "which level" in last_ai_message.lower():
-                    # User is answering a subject/level question
+                for loc in location_words:
+                    if loc in request.message.lower():
+                        current_location = loc
+                        break
+                
+                # If user provided a location and last AI message asked about location
+                if current_location and "which location" in last_ai_message.lower():
+                    # Extract the subject/level from the AI's previous question
+                    subject_patterns = [
+                        ("j1 math", "J1 Math"), ("j2 math", "J2 Math"), 
+                        ("p2 math", "P2 Math"), ("p3 math", "P3 Math"), ("p4 math", "P4 Math"), ("p5 math", "P5 Math"), ("p6 math", "P6 Math"),
+                        ("s1 math", "S1 Math"), ("s2 math", "S2 Math"), ("s3 math", "S3 Math"), ("s4 math", "S4 Math"),
+                        ("s3 emath", "S3 EMath"), ("s3 amath", "S3 AMath"), ("s4 emath", "S4 EMath"), ("s4 amath", "S4 AMath"),
+                        ("j1 chemistry", "J1 Chemistry"), ("j2 chemistry", "J2 Chemistry"),
+                        ("j1 physics", "J1 Physics"), ("j2 physics", "J2 Physics"),
+                        ("j1 biology", "J1 Biology"), ("j2 biology", "J2 Biology"),
+                        ("j1 economics", "J1 Economics"), ("j2 economics", "J2 Economics"),
+                        ("p3 science", "P3 Science"), ("p4 science", "P4 Science"), ("p5 science", "P5 Science"), ("p6 science", "P6 Science"),
+                        ("s1 science", "S1 Science"), ("s2 science", "S2 Science"),
+                        ("p3 english", "P3 English"), ("p4 english", "P4 English"), ("p5 english", "P5 English"), ("p6 english", "P6 English"),
+                        ("s1 english", "S1 English"), ("s2 english", "S2 English"), ("s3 english", "S3 English"), ("s4 english", "S4 English"),
+                        ("p3 chinese", "P3 Chinese"), ("p4 chinese", "P4 Chinese"), ("p5 chinese", "P5 Chinese"), ("p6 chinese", "P6 Chinese"),
+                        ("s1 chinese", "S1 Chinese"), ("s2 chinese", "S2 Chinese"), ("s3 chinese", "S3 Chinese"), ("s4 chinese", "S4 Chinese")
+                    ]
+                    
+                    for pattern, display_name in subject_patterns:
+                        if pattern in last_ai_message.lower():
+                            context_instruction = f"\n\nCRITICAL CONTEXT: The user previously asked about '{display_name}' and you asked which location. They answered '{current_location}'. You MUST provide {display_name} information for {current_location} location ONLY. DO NOT ask about subjects again."
+                            enhanced_message = f"{display_name} at {current_location}"
+                            break
+                
+                # If user provided a subject/level and last AI message asked about subject/level
+                elif ("which subject" in last_ai_message.lower() or "which level" in last_ai_message.lower()):
                     location_mentioned = ""
-                    for loc in ["marine parade", "punggol", "bishan", "jurong", "kovan"]:
+                    for loc in location_words:
                         if loc in last_ai_message.lower():
                             location_mentioned = loc
                             break
                     
                     if location_mentioned:
-                        context_instruction = f"\n\nCONTEXT: The user previously asked about classes at {location_mentioned} and you asked which subject. They answered '{request.message}'. Provide {request.message} information for {location_mentioned} location only."
+                        context_instruction = f"\n\nCRITICAL CONTEXT: The user previously asked about classes at {location_mentioned} and you asked which subject. They answered '{request.message}'. You MUST provide {request.message} information for {location_mentioned} location ONLY."
                         enhanced_message = f"{request.message} at {location_mentioned}"
         
         # Enhance system message with conversation context
