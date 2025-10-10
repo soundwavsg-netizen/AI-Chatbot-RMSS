@@ -58,11 +58,6 @@ class ChatResponse(BaseModel):
     response: str
     session_id: str
     message_id: str
-    
-    class Config:
-        json_encoders = {
-            str: lambda v: v.strip().replace('\n', '').replace('\r', '')
-        }
 
 # Enhanced RMSS system message with comprehensive 2026 data from 11 PDF reservation forms
 RMSS_SYSTEM_MESSAGE = """
