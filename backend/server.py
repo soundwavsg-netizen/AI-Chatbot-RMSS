@@ -504,92 +504,42 @@ async def chat_with_ai(request: ChatRequest):
         # Retrieve conversation history for context
         recent_messages = await db.chat_messages.find(
             {"session_id": session_id}
-        ).sort("timestamp", -1).limit(10).to_list(length=10)
+        ).sort("timestamp", 1).limit(20).to_list(length=20)  # Get chronological order
         
-        # Reverse to get chronological order
-        recent_messages.reverse()
+        # Build conversation history for the LLM
+        conversation_history = []
         
-        # Analyze conversation context and modify the current message if needed
-        enhanced_message = request.message
-        context_instruction = ""
+        # Add system message with comprehensive RMSS data
+        conversation_history.append({"role": "system", "content": RMSS_SYSTEM_MESSAGE})
         
-        if recent_messages:
-            last_ai_message = None
-            last_user_message = None
-            
-            # Find the last AI and user messages
-            for msg in reversed(recent_messages):
-                if msg["sender"] == "assistant" and not last_ai_message:
-                    last_ai_message = msg["message"]
-                elif msg["sender"] == "user" and not last_user_message:
-                    last_user_message = msg["message"]
-                if last_ai_message and last_user_message:
-                    break
-            
-            # Check if this is a follow-up answer to a location or subject question
-            if last_ai_message:
-                # Comprehensive context analysis for ALL subject-location combinations
-                location_words = ["marine parade", "punggol", "bishan", "jurong", "kovan"]
-                current_location = None
-                
-                for loc in location_words:
-                    if loc in request.message.lower():
-                        current_location = loc
-                        break
-                
-                # If user provided a location and last AI message asked about location
-                if current_location and "which location" in last_ai_message.lower():
-                    # Extract the subject/level from the AI's previous question
-                    subject_patterns = [
-                        ("j1 math", "J1 Math"), ("j2 math", "J2 Math"), 
-                        ("p2 math", "P2 Math"), ("p3 math", "P3 Math"), ("p4 math", "P4 Math"), ("p5 math", "P5 Math"), ("p6 math", "P6 Math"),
-                        ("s1 math", "S1 Math"), ("s2 math", "S2 Math"), ("s3 math", "S3 Math"), ("s4 math", "S4 Math"),
-                        ("s3 emath", "S3 EMath"), ("s3 amath", "S3 AMath"), ("s4 emath", "S4 EMath"), ("s4 amath", "S4 AMath"),
-                        ("j1 chemistry", "J1 Chemistry"), ("j2 chemistry", "J2 Chemistry"),
-                        ("j1 physics", "J1 Physics"), ("j2 physics", "J2 Physics"),
-                        ("j1 biology", "J1 Biology"), ("j2 biology", "J2 Biology"),
-                        ("j1 economics", "J1 Economics"), ("j2 economics", "J2 Economics"),
-                        ("p3 science", "P3 Science"), ("p4 science", "P4 Science"), ("p5 science", "P5 Science"), ("p6 science", "P6 Science"),
-                        ("s1 science", "S1 Science"), ("s2 science", "S2 Science"),
-                        ("p3 english", "P3 English"), ("p4 english", "P4 English"), ("p5 english", "P5 English"), ("p6 english", "P6 English"),
-                        ("s1 english", "S1 English"), ("s2 english", "S2 English"), ("s3 english", "S3 English"), ("s4 english", "S4 English"),
-                        ("p3 chinese", "P3 Chinese"), ("p4 chinese", "P4 Chinese"), ("p5 chinese", "P5 Chinese"), ("p6 chinese", "P6 Chinese"),
-                        ("s1 chinese", "S1 Chinese"), ("s2 chinese", "S2 Chinese"), ("s3 chinese", "S3 Chinese"), ("s4 chinese", "S4 Chinese")
-                    ]
-                    
-                    for pattern, display_name in subject_patterns:
-                        if pattern in last_ai_message.lower():
-                            context_instruction = f"\n\nCRITICAL CONTEXT: The user previously asked about '{display_name}' and you asked which location. They answered '{current_location}'. You MUST provide {display_name} information for {current_location} location ONLY. DO NOT ask about subjects again."
-                            enhanced_message = f"{display_name} at {current_location}"
-                            break
-                
-                # If user provided a subject/level and last AI message asked about subject/level
-                elif ("which subject" in last_ai_message.lower() or "which level" in last_ai_message.lower()):
-                    location_mentioned = ""
-                    for loc in location_words:
-                        if loc in last_ai_message.lower():
-                            location_mentioned = loc
-                            break
-                    
-                    if location_mentioned:
-                        context_instruction = f"\n\nCRITICAL CONTEXT: The user previously asked about classes at {location_mentioned} and you asked which subject. They answered '{request.message}'. You MUST provide {request.message} information for {location_mentioned} location ONLY."
-                        enhanced_message = f"{request.message} at {location_mentioned}"
+        # Add conversation history as alternating user/assistant messages
+        for msg in recent_messages:
+            role = "user" if msg["sender"] == "user" else "assistant"
+            conversation_history.append({
+                "role": role,
+                "content": msg["message"]
+            })
         
-        # Enhance system message with conversation context
-        enhanced_system_message = RMSS_SYSTEM_MESSAGE + context_instruction
+        # Add the current user message
+        conversation_history.append({
+            "role": "user", 
+            "content": request.message
+        })
         
-        # Initialize chat with conversation context  
-        chat = LlmChat(
-            api_key=EMERGENT_LLM_KEY,
-            session_id=session_id,
-            system_message=enhanced_system_message
-        ).with_model("openai", "gpt-4o-mini")
+        # Use emergent LLM integration directly with conversation history
+        from emergentintegrations.llm.openai import OpenAILLMConnection
         
-        # Create user message with enhanced context
-        user_message = UserMessage(text=enhanced_message)
+        llm = OpenAILLMConnection(api_key=EMERGENT_LLM_KEY)
         
-        # Get AI response
-        ai_response = await chat.send_message(user_message)
+        # Send conversation with full history to maintain context
+        response = await llm.complete(
+            messages=conversation_history,
+            model="gpt-4o-mini",
+            max_tokens=1000,
+            temperature=0.7
+        )
+        
+        ai_response = response.choices[0].message.content
         
         # Store user message in database
         user_msg_dict = {
