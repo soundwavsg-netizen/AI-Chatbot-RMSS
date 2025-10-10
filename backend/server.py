@@ -522,7 +522,7 @@ async def chat_with_ai(request: ChatRequest):
             UserMessage(text=request.message)
         )
         
-        ai_response = response.content
+        ai_response = response
         
         # Store user message in database
         user_msg_dict = {
