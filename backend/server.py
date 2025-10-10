@@ -507,42 +507,78 @@ async def chat_with_ai(request: ChatRequest):
         ).sort("timestamp", 1).limit(20).to_list(length=20)  # Get chronological order
         
         # Build complete conversation context manually for better control
-        conversation_context = RMSS_SYSTEM_MESSAGE + "\n\n"
-        conversation_context += "CRITICAL INSTRUCTIONS FOR CONTEXT MEMORY:\n"
-        conversation_context += "- ALWAYS remember what the user asked about in previous messages\n"
-        conversation_context += "- If user mentions a subject/level, remember it for follow-up questions\n"
-        conversation_context += "- If user mentions a location, remember it for follow-up questions\n"
-        conversation_context += "- Provide specific RMSS information, not generic education advice\n"
-        conversation_context += "- Use the exact pricing from the system message above\n"
-        conversation_context += "- IMPORTANT: P5 Math = $346.62, P6 Math = $357.52 - DO NOT CONFUSE THESE!\n"
-        conversation_context += "- IMPORTANT: J1 Math = $401.12, J2 Math = $444.72 - DO NOT CONFUSE THESE!\n\n"
+        conversation_context = ""
         
         # Add conversation history with clear context markers
         if recent_messages:
-            conversation_context += "CONVERSATION HISTORY:\n"
+            conversation_context += "**CONVERSATION HISTORY:**\n"
             for msg in recent_messages:
                 role = "User" if msg["sender"] == "user" else "Assistant"
                 conversation_context += f"{role}: {msg['message']}\n"
-            conversation_context += "\nBased on the conversation history above, respond to the current user message while maintaining context.\n\n"
+            conversation_context += "\n"
         
-        # Add current user message
-        conversation_context += f"CURRENT USER MESSAGE: {request.message}\n\n"
-        conversation_context += "RMSS Assistant Response:"
+        # Intelligent context analysis - determine what the user is really asking
+        enhanced_prompt = request.message
         
-        # Use LlmChat with the complete context as a single message
-        llm = LlmChat(
+        # Check if this is a location answer to a subject question
+        if recent_messages:
+            last_message = recent_messages[-1] if recent_messages else None
+            if last_message and last_message["sender"] == "assistant":
+                last_ai_response = last_message["message"].lower()
+                
+                # Location patterns
+                locations = ["marine parade", "punggol", "bishan", "jurong", "kovan"]
+                user_location = None
+                
+                for loc in locations:
+                    if loc in request.message.lower():
+                        user_location = loc.title()
+                        break
+                
+                # If AI asked about location and user provided location
+                if user_location and "location" in last_ai_response:
+                    # Find what subject was being discussed
+                    math_patterns = [
+                        "j1 math", "j2 math", "p2 math", "p3 math", "p4 math", "p5 math", "p6 math",
+                        "s1 math", "s2 math", "s3 math", "s4 math", "s3 emath", "s3 amath", "s4 emath", "s4 amath"
+                    ]
+                    
+                    subject_found = ""
+                    for pattern in math_patterns:
+                        if pattern in last_ai_response:
+                            if pattern == "j1 math": subject_found = "J1 Math"
+                            elif pattern == "j2 math": subject_found = "J2 Math"
+                            elif pattern == "p2 math": subject_found = "P2 Math"
+                            elif pattern == "p3 math": subject_found = "P3 Math"
+                            elif pattern == "p4 math": subject_found = "P4 Math"
+                            elif pattern == "p5 math": subject_found = "P5 Math"
+                            elif pattern == "p6 math": subject_found = "P6 Math"
+                            elif pattern == "s1 math": subject_found = "S1 Math"
+                            elif pattern == "s2 math": subject_found = "S2 Math"
+                            elif pattern == "s3 math": subject_found = "S3 Math"
+                            elif pattern == "s4 math": subject_found = "S4 Math"
+                            elif pattern == "s3 emath": subject_found = "S3 EMath"
+                            elif pattern == "s3 amath": subject_found = "S3 AMath"
+                            elif pattern == "s4 emath": subject_found = "S4 EMath"
+                            elif pattern == "s4 amath": subject_found = "S4 AMath"
+                            break
+                    
+                    if subject_found:
+                        enhanced_prompt = f"Provide detailed information for {subject_found} at {user_location} location including pricing, schedule, and tutors."
+                        conversation_context += f"**CRITICAL CONTEXT**: User asked about {subject_found}, AI asked for location, user replied {user_location}. Provide {subject_found} details for {user_location} ONLY.\n\n"
+        
+        # Create the complete prompt with context
+        full_prompt = conversation_context + "USER'S CURRENT REQUEST: " + enhanced_prompt + "\n\nProvide helpful RMSS information based on the conversation context above."
+        
+        # Use LlmChat with a single comprehensive prompt
+        chat = LlmChat(
             api_key=EMERGENT_LLM_KEY,
-            session_id=session_id,
-            system_message="You are an AI assistant for Raymond's Math & Science Studio (RMSS). Respond based on the context provided.",
-            initial_messages=[]
-        )
+            session_id=session_id + "_context",  # Use unique session to avoid confusion
+            system_message=RMSS_SYSTEM_MESSAGE
+        ).with_model("openai", "gpt-4o-mini")
         
         # Send the complete context as the user message
-        response = await llm.with_model("openai", "gpt-4o-mini").send_message(
-            UserMessage(text=conversation_context)
-        )
-        
-        ai_response = response
+        ai_response = await chat.send_message(UserMessage(text=full_prompt))
         
         # Store user message in database
         user_msg_dict = {
