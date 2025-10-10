@@ -510,11 +510,19 @@ async def chat_with_ai(request: ChatRequest):
         # Build context from recent conversation
         conversation_context = ""
         if recent_messages:
-            conversation_context = "\n\n**RECENT CONVERSATION CONTEXT:**\n"
+            conversation_context = "\n\n**CONVERSATION CONTEXT - CRITICAL TO FOLLOW:**\n"
             for msg in recent_messages[-6:]:  # Last 6 messages for context
-                sender = "User" if msg["sender"] == "user" else "AI"
+                sender = "User" if msg["sender"] == "user" else "AI Assistant"
                 conversation_context += f"{sender}: {msg['message']}\n"
-            conversation_context += "\n**CRITICAL: Use this context to maintain conversation flow and remember what the user was asking about.**\n"
+            
+            # Extract key context information
+            conversation_context += "\n**CRITICAL CONTEXT RULES:**\n"
+            conversation_context += "- If the user just answered a location question, provide info for the PREVIOUSLY mentioned subject/level at that location\n"
+            conversation_context += "- If the user just answered a subject/level question, provide info for that specific subject/level\n" 
+            conversation_context += "- Look at the conversation flow above - what was the user asking about before their current message?\n"
+            conversation_context += "- NEVER ask the same type of question twice in a row\n"
+            conversation_context += "- If AI asked 'which location?' and user provided location, give details for the previously mentioned subject\n"
+            conversation_context += "- If AI asked 'which subject?' and user provided subject, give details for that subject\n\n"
         
         # Enhance system message with conversation context
         enhanced_system_message = RMSS_SYSTEM_MESSAGE + conversation_context
