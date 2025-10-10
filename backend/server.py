@@ -506,26 +506,6 @@ async def chat_with_ai(request: ChatRequest):
             {"session_id": session_id}
         ).sort("timestamp", 1).limit(20).to_list(length=20)  # Get chronological order
         
-        # Build conversation history for the LLM
-        conversation_history = []
-        
-        # Add system message with comprehensive RMSS data
-        conversation_history.append({"role": "system", "content": RMSS_SYSTEM_MESSAGE})
-        
-        # Add conversation history as alternating user/assistant messages
-        for msg in recent_messages:
-            role = "user" if msg["sender"] == "user" else "assistant"
-            conversation_history.append({
-                "role": role,
-                "content": msg["message"]
-            })
-        
-        # Add the current user message
-        conversation_history.append({
-            "role": "user", 
-            "content": request.message
-        })
-        
         # Use emergent LLM integration with session-based chat
         llm = LlmChat(
             api_key=EMERGENT_LLM_KEY,
