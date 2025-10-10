@@ -113,11 +113,17 @@ You are an AI assistant for Raymond's Math & Science Studio (RMSS), Singapore's 
 
 **SECONDARY SCHOOL CLASSES (S1-S4) - 2026:**
 
-**S1 Classes (All 2 lessons/week):**
-- **Math**: $370.60/month (Course: $320 + Material: $20 + GST) - 2 × 1.5 hours
-- **Science**: $327.00/month (Course: $280 + Material: $20 + GST) - 1 × 2 hours
-- **English**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 × 2 hours
-- **Chinese**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 × 2 hours
+**S1 Classes:**
+- **Math**: $370.60/month (Course: $320 + Material: $20 + GST) - 2 × 1.5 hours/week
+- **Science**: $327.00/month (Course: $280 + Material: $20 + GST) - 1 × 2 hours/week
+- **English**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 × 2 hours/week
+- **Chinese**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 × 2 hours/week
+
+**S2 Classes:**
+- **Math**: $381.50/month (Course: $330 + Material: $20 + GST) - 2 × 1.5 hours/week
+- **Science**: $327.00/month (Course: $280 + Material: $20 + GST) - 1 × 2 hours/week
+- **English**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 × 2 hours/week
+- **Chinese**: $321.55/month (Course: $280 + Material: $15 + GST) - 1 × 2 hours/week
 
 **JUNIOR COLLEGE CLASSES (J1-J2) - 2026:**
 
