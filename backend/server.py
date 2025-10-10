@@ -450,10 +450,14 @@ async def chat_with_ai(request: ChatRequest):
         }
         await db.chat_messages.insert_one(user_msg_dict)
         
-        # Store AI response in database (clean the response thoroughly)
-        # Remove all newlines, carriage returns, and extra whitespace
+        # Store AI response in database - preserve line breaks for proper formatting
         logging.info(f"Raw AI response: {repr(ai_response)}")
-        cleaned_response = ai_response.strip().replace('\n', '').replace('\r', '').replace('\\n', '')
+        
+        # Light cleaning - only remove excessive whitespace, keep intentional line breaks
+        cleaned_response = ai_response.strip()
+        # Remove only literal \n strings that shouldn't be there, not actual line breaks
+        cleaned_response = cleaned_response.replace('\\n', '\n').replace('\\r', '')
+        
         logging.info(f"Cleaned response: {repr(cleaned_response)}")
         ai_msg_id = str(uuid.uuid4())
         ai_msg_dict = {
@@ -465,12 +469,8 @@ async def chat_with_ai(request: ChatRequest):
         }
         await db.chat_messages.insert_one(ai_msg_dict)
         
-        # Final cleaning step before return
-        final_response = cleaned_response.strip()
-        logging.info(f"Final response before return: {repr(final_response)}")
-        
         chat_response = ChatResponse(
-            response=final_response,
+            response=cleaned_response,
             session_id=session_id,
             message_id=ai_msg_id
         )
