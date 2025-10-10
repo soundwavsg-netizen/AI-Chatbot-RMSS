@@ -161,8 +161,10 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
-  stuck_tasks: []
+  current_focus:
+    - "Context Memory System Testing"
+  stuck_tasks:
+    - "Context Memory System - Critical pricing errors in conversation flows"
   test_all: false
   test_priority: "high_first"
 
@@ -173,3 +175,5 @@ agent_communication:
     message: "BACKEND TESTING COMPLETED ✅ Comprehensive testing of RMSS AI chatbot backend successful. All PDF data integration verified: accurate 2026 pricing (S1 Math $370.60 ✓, P2 Math $261.60 ✓, P3 Science $277.95 ✓, J1 Chemistry $401.12 ✓), correct holiday dates (CNY Feb 18 ✓, Labour Day Apr 27 ✓), tutor assignments (Sean Yeo at Marine Parade ✓), fee settlement periods ✓, and proper response formatting ✓. Chat API fully functional with 85.7% test success rate. Minor limitation: Context awareness between conversation turns needs improvement (LlmChat system not maintaining session history). Core functionality working excellently - ready for production use."
   - agent: "testing"
     message: "CHAT WIDGET ISSUE RESOLVED ✅ Successfully debugged and fixed the reported chat widget problem. Root cause: Backend had variable name error (final_response vs cleaned_response) causing 500 API errors. Fixed the backend bug and confirmed all functionality working perfectly: Chat opens properly, holiday responses with 2026 dates, P6 Math pricing/tutor info, context awareness for location queries, proper line break formatting, and clean UI. The original click issue was due to overlay element but widget functions correctly with JavaScript click. All requested tests passed - chat widget is fully operational."
+  - agent: "testing"
+    message: "CRITICAL CONTEXT MEMORY ISSUES IDENTIFIED ❌ Comprehensive testing of context memory system reveals MAJOR PROBLEMS: 1) P6 Math pricing error - AI returns $346.62 (P5 pricing) instead of correct $357.52 when asked 'P6 math' → 'Punggol', but gives correct price when asked directly. 2) Context awareness failures - AI not maintaining conversation context for follow-up questions (asks 'which subject' instead of remembering previous context). 3) Location-specific queries failing - AI asks for clarification instead of providing location-specific info. SUCCESS RATE: Context Memory 84.6% (11/13 tests), Backend Overall 71.4% (10/14 tests). CRITICAL FIX NEEDED: Context memory system has fundamental issues that will confuse users and provide wrong pricing information."
