@@ -195,7 +195,7 @@ const SimpleChatWidget = () => {
                     lineHeight: '1.4',
                     marginBottom: '4px',
                     wordWrap: 'break-word',
-                    whiteSpace: 'pre-wrap'
+                    whiteSpace: 'pre-line'
                   }}>
                     {msg.text}
                   </div>
