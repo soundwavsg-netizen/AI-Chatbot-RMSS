@@ -527,13 +527,16 @@ async def chat_with_ai(request: ChatRequest):
         })
         
         # Use emergent LLM integration directly with conversation history
-        from emergentintegrations.llm.openai import OpenAILLMConnection
+        llm = LlmChat(api_key=EMERGENT_LLM_KEY)
         
-        llm = OpenAILLMConnection(api_key=EMERGENT_LLM_KEY)
+        # Convert conversation history to UserMessage format for LlmChat
+        messages = []
+        for msg in conversation_history:
+            messages.append(UserMessage(content=msg["content"]))
         
         # Send conversation with full history to maintain context
-        response = await llm.complete(
-            messages=conversation_history,
+        response = await llm.chat(
+            messages=messages,
             model="gpt-4o-mini",
             max_tokens=1000,
             temperature=0.7
