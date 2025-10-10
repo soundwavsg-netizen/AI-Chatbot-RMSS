@@ -519,7 +519,7 @@ async def chat_with_ai(request: ChatRequest):
         
         # Send the current user message
         response = await llm.send_message(
-            UserMessage(content=request.message),
+            UserMessage(text=request.message),
             model="gpt-4o-mini",
             max_tokens=1000,
             temperature=0.7
