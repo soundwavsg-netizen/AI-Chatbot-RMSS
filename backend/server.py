@@ -491,9 +491,9 @@ async def chat_with_ai(request: ChatRequest):
         )
         logging.info(f"ChatResponse object: {repr(chat_response.response)}")
         
-        # Return with manual dict to bypass any Pydantic issues
+        # Return the response with proper formatting preserved
         return {
-            "response": cleaned_response.replace('\n', '').replace('\r', '').replace('\\n', '').strip(),
+            "response": cleaned_response,
             "session_id": session_id,
             "message_id": ai_msg_id
         }
