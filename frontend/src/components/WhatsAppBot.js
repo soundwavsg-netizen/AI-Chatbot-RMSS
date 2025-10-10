@@ -252,7 +252,7 @@ const WhatsAppBot = () => {
                 wordWrap: 'break-word',
                 color: '#303030'
               }}>
-                {msg.text.split('\\n').join('\n')}
+                {msg.text}
               </div>
               <div style={{
                 fontSize: '11px',
