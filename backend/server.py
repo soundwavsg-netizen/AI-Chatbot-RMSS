@@ -513,7 +513,9 @@ async def chat_with_ai(request: ChatRequest):
         conversation_context += "- If user mentions a subject/level, remember it for follow-up questions\n"
         conversation_context += "- If user mentions a location, remember it for follow-up questions\n"
         conversation_context += "- Provide specific RMSS information, not generic education advice\n"
-        conversation_context += "- Use the exact pricing from the system message above\n\n"
+        conversation_context += "- Use the exact pricing from the system message above\n"
+        conversation_context += "- IMPORTANT: P5 Math = $346.62, P6 Math = $357.52 - DO NOT CONFUSE THESE!\n"
+        conversation_context += "- IMPORTANT: J1 Math = $401.12, J2 Math = $444.72 - DO NOT CONFUSE THESE!\n\n"
         
         # Add conversation history with clear context markers
         if recent_messages:
