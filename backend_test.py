@@ -588,39 +588,72 @@ class RMSSChatbotTester:
 
     def run_all_tests(self):
         """Run all tests and provide summary"""
-        print("🚀 Starting RMSS AI Chatbot Backend Tests")
-        print("=" * 60)
+        print("🚀 Starting RMSS AI Chatbot Backend Tests - FINAL CONTEXT MEMORY VERIFICATION")
+        print("=" * 80)
         
-        # Run all tests
+        # Run basic connectivity tests first
         self.test_basic_connectivity()
         self.test_chat_endpoint_basic()
         self.test_response_formatting()
+        
+        # Run comprehensive data tests
         self.test_s1_math_pricing()
         self.test_holiday_dates_2026()
         self.test_tutor_assignments()
         self.test_comprehensive_pricing_data()
-        self.test_context_awareness()
-        self.test_location_specific_queries()
         self.test_fee_settlement_periods()
         
+        # CRITICAL CONTEXT MEMORY TESTS - The main focus
+        print("\n🎯 CRITICAL CONTEXT MEMORY TESTS - FINAL VERIFICATION")
+        print("=" * 80)
+        
+        self.test_context_memory_j2_math_bishan_flow()
+        self.test_context_memory_p6_math_punggol_flow()
+        self.test_context_memory_location_first_flow()
+        
+        # Additional context and formatting tests
+        self.test_context_awareness()
+        self.test_location_specific_queries()
+        self.test_response_formatting_comprehensive()
+        self.test_professional_conversation_flow()
+        
         # Summary
-        print("=" * 60)
-        print("📊 TEST SUMMARY")
-        print("=" * 60)
+        print("=" * 80)
+        print("📊 FINAL TEST SUMMARY")
+        print("=" * 80)
         
         passed_tests = [test for test in self.test_results if test["passed"]]
         failed_tests = [test for test in self.test_results if not test["passed"]]
         
-        print(f"✅ PASSED: {len(passed_tests)}")
-        print(f"❌ FAILED: {len(failed_tests)}")
-        print(f"📈 SUCCESS RATE: {len(passed_tests)}/{len(self.test_results)} ({len(passed_tests)/len(self.test_results)*100:.1f}%)")
+        # Separate critical context memory tests
+        context_memory_tests = [test for test in self.test_results if "Context Memory -" in test["test"]]
+        context_memory_passed = [test for test in context_memory_tests if test["passed"]]
+        context_memory_failed = [test for test in context_memory_tests if not test["passed"]]
+        
+        print(f"✅ TOTAL PASSED: {len(passed_tests)}")
+        print(f"❌ TOTAL FAILED: {len(failed_tests)}")
+        print(f"📈 OVERALL SUCCESS RATE: {len(passed_tests)}/{len(self.test_results)} ({len(passed_tests)/len(self.test_results)*100:.1f}%)")
+        
+        print(f"\n🎯 CRITICAL CONTEXT MEMORY RESULTS:")
+        print(f"✅ CONTEXT MEMORY PASSED: {len(context_memory_passed)}")
+        print(f"❌ CONTEXT MEMORY FAILED: {len(context_memory_failed)}")
+        print(f"📈 CONTEXT MEMORY SUCCESS RATE: {len(context_memory_passed)}/{len(context_memory_tests)} ({len(context_memory_passed)/len(context_memory_tests)*100:.1f}%)")
         
         if failed_tests:
             print("\n🔍 FAILED TESTS DETAILS:")
             for test in failed_tests:
                 print(f"   ❌ {test['test']}: {test['details']}")
+                
+        if context_memory_failed:
+            print("\n🚨 CRITICAL CONTEXT MEMORY FAILURES:")
+            for test in context_memory_failed:
+                print(f"   🚨 {test['test']}: {test['details']}")
         
-        return len(failed_tests) == 0
+        # Return True only if ALL context memory tests pass
+        context_memory_success = len(context_memory_failed) == 0
+        overall_success = len(failed_tests) == 0
+        
+        return context_memory_success and overall_success
 
 if __name__ == "__main__":
     tester = RMSSChatbotTester()
