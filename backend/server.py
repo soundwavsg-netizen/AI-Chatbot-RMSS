@@ -426,11 +426,31 @@ async def chat_with_ai(request: ChatRequest):
         # Generate session ID if not provided
         session_id = request.session_id or str(uuid.uuid4())
         
-        # Initialize chat with comprehensive RMSS system message
+        # Retrieve conversation history for context
+        recent_messages = await db.chat_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", -1).limit(10).to_list(length=10)
+        
+        # Reverse to get chronological order
+        recent_messages.reverse()
+        
+        # Build context from recent conversation
+        conversation_context = ""
+        if recent_messages:
+            conversation_context = "\n\n**RECENT CONVERSATION CONTEXT:**\n"
+            for msg in recent_messages[-6:]:  # Last 6 messages for context
+                sender = "User" if msg["sender"] == "user" else "AI"
+                conversation_context += f"{sender}: {msg['message']}\n"
+            conversation_context += "\n**CRITICAL: Use this context to maintain conversation flow and remember what the user was asking about.**\n"
+        
+        # Enhance system message with conversation context
+        enhanced_system_message = RMSS_SYSTEM_MESSAGE + conversation_context
+        
+        # Initialize chat with conversation context
         chat = LlmChat(
             api_key=EMERGENT_LLM_KEY,
             session_id=session_id,
-            system_message=RMSS_SYSTEM_MESSAGE
+            system_message=enhanced_system_message
         ).with_model("openai", "gpt-4o-mini")
         
         # Create user message
