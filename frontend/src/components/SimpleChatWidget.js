@@ -107,12 +107,38 @@ const SimpleChatWidget = () => {
     setIsOpen(!isOpen);
   };
 
-  const quickReplies = [
+  const quickReplies = authData ? [
+    "Check my fees",
+    "My class schedule", 
+    "Update my profile",
+    "General course info"
+  ] : [
     "What courses do you offer?",
     "Primary school pricing?",
     "Location and schedule?",
     "How to enroll?"
   ];
+
+  const handleAuthenticated = (authInfo) => {
+    setAuthData(authInfo);
+    setShowAuth(false);
+    setMessages([{
+      id: 'auth-success',
+      text: `Welcome back, ${authInfo.studentName}! I can now help you with your personal information. What would you like to know?`,
+      sender: 'bot',
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }]);
+  };
+
+  const handleLogout = () => {
+    setAuthData(null);
+    setMessages([{
+      id: 'logout',
+      text: 'You have been logged out. I can still help with general RMSS information. How can I assist you?',
+      sender: 'bot', 
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }]);
+  };
 
   return (
     <>
