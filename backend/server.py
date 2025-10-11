@@ -585,11 +585,54 @@ async def chat_with_ai(request: ChatRequest):
         # Create the complete prompt with context
         full_prompt = conversation_context + "USER'S CURRENT REQUEST: " + enhanced_prompt + "\n\nProvide helpful RMSS information based on the conversation context above."
         
+        # Check for authenticated student data requests
+        student_context = ""
+        if request.auth_token:
+            # Import demo auth for checking authenticated requests
+            from demo_endpoints import DEMO_SESSIONS
+            
+            session = DEMO_SESSIONS.get(request.auth_token)
+            if session and datetime.now() <= session["expires"]:
+                student_data = session["student_data"]
+                student_context = f"\n\n**AUTHENTICATED STUDENT**: {student_data['full_name']} (ID: {student_data['student_id']})\n"
+                
+                # Check if message is asking for personal information
+                message_lower = request.message.lower()
+                personal_queries = [
+                    "my fees", "outstanding", "balance", "payment", "my schedule", 
+                    "my classes", "my subjects", "my profile", "my information"
+                ]
+                
+                if any(query in message_lower for query in personal_queries):
+                    from demo_auth import DemoAuthService
+                    
+                    if "fees" in message_lower or "outstanding" in message_lower or "balance" in message_lower or "payment" in message_lower:
+                        return {
+                            "response": DemoAuthService.format_fees_info(student_data),
+                            "session_id": session_id,
+                            "message_id": str(uuid.uuid4())
+                        }
+                    elif "schedule" in message_lower or "classes" in message_lower:
+                        return {
+                            "response": DemoAuthService.format_schedule_info(student_data),
+                            "session_id": session_id, 
+                            "message_id": str(uuid.uuid4())
+                        }
+                    elif "profile" in message_lower or "information" in message_lower:
+                        return {
+                            "response": DemoAuthService.format_profile_info(student_data),
+                            "session_id": session_id,
+                            "message_id": str(uuid.uuid4())
+                        }
+        
+        # Enhanced system message with student context if authenticated
+        enhanced_system_message = RMSS_SYSTEM_MESSAGE + student_context
+        
         # Use LlmChat with a single comprehensive prompt
         chat = LlmChat(
             api_key=EMERGENT_LLM_KEY,
             session_id=session_id + "_context",  # Use unique session to avoid confusion
-            system_message=RMSS_SYSTEM_MESSAGE
+            system_message=enhanced_system_message
         ).with_model("openai", "gpt-4o-mini")
         
         # Send the complete context as the user message
