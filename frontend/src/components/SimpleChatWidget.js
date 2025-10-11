@@ -426,6 +426,14 @@ const SimpleChatWidget = () => {
       >
         {isOpen ? '✕' : '💬'}
       </button>
+
+      {/* Student Authentication Modal */}
+      {showAuth && (
+        <StudentAuthWidget 
+          onAuthenticated={handleAuthenticated}
+          onClose={() => setShowAuth(false)}
+        />
+      )}
     </>
   );
 };
