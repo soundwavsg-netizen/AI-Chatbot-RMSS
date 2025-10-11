@@ -226,6 +226,7 @@ const SimpleChatWidget = () => {
                   Student Login
                 </button>
               )}
+            </div>
             <button
               onClick={toggleChat}
               style={{
