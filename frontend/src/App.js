@@ -269,6 +269,7 @@ function App() {
           <Route path="/" element={<RMSSHomepage />} />
           <Route path="/whatsapp" element={<WhatsAppDemo />} />
           <Route path="/auth-demo" element={<AuthDemo />} />
+          <Route path="/AILibrary" element={<AILibrary />} />
         </Routes>
       </BrowserRouter>
     </div>
