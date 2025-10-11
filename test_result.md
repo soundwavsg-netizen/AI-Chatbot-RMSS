@@ -156,10 +156,10 @@ backend:
 frontend:
   - task: "Embedded Chat Widget functionality"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/components/SimpleChatWidget.js"
-    stuck_count: 0
-    priority: "medium"
+    stuck_count: 1
+    priority: "high"
     needs_retesting: false
     status_history:
       - working: true
@@ -171,6 +171,21 @@ frontend:
       - working: true
         agent: "testing"
         comment: "CHAT WIDGET FULLY FUNCTIONAL ✅ Fixed backend variable error and confirmed all functionality working: 1) Chat opens successfully with JavaScript click (overlay issue bypassed), 2) Holiday responses working with proper 2026 dates and formatting, 3) P6 Math responses showing correct pricing ($357.52/month) and tutor info, 4) Context awareness working - 'Bishan' follow-up provides location-specific details, 5) Line breaks properly formatted (not long paragraphs), 6) Clean, professional UI with proper styling. All requested tests passed successfully."
+      - working: false
+        agent: "testing"
+        comment: "CRITICAL CHAT WIDGET RENDERING ISSUE ❌ Comprehensive testing reveals MAJOR PROBLEM: Chat widget button is clickable and Playwright detects 'Student Login' text, but the chat interface is NOT VISIBLE in the UI. Screenshots consistently show main page without any chat window rendering. This indicates a critical CSS/rendering issue where the chat widget exists in DOM but is not displayed to users. Chat functionality cannot be tested because the interface is invisible. URGENT: Main agent needs to investigate chat widget CSS styling and z-index issues."
+
+  - task: "Student Authentication System Demo"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/StudentAuthWidget.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "AUTHENTICATION SYSTEM TESTING BLOCKED ❌ Cannot test authentication modal because chat widget is not rendering properly. Backend authentication endpoints are FULLY FUNCTIONAL: ✅ Password login (ST001/demo123) returns 'Welcome back, Emily Tan Wei Ling!' ✅ WhatsApp OTP request (ST002/+6598765432) generates OTP: 330434 ✅ OTP verification successful: 'Welcome, Ryan Lee Jun Wei!' The authentication logic and API endpoints work perfectly, but frontend modal cannot be accessed due to chat widget rendering issues. Authentication modal depends on chat widget being visible first."
 
 metadata:
   created_by: "main_agent"
