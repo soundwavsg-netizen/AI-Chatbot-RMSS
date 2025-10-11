@@ -54,6 +54,7 @@ class ChatRequest(BaseModel):
     message: str
     session_id: Optional[str] = None
     user_type: Optional[str] = "visitor"  # visitor, parent, student
+    auth_token: Optional[str] = None  # For authenticated student access
 
 class ChatResponse(BaseModel):
     response: str
