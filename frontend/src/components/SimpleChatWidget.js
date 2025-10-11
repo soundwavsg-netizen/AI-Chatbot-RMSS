@@ -184,9 +184,48 @@ const SimpleChatWidget = () => {
               </div>
               <div>
                 <div style={{ fontWeight: '600' }}>RMSS Assistant</div>
-                <div style={{ fontSize: '12px', color: 'rgba(252,165,165,1)' }}>Always here to help</div>
+                <div style={{ fontSize: '12px', color: 'rgba(252,165,165,1)' }}>
+                  {authData ? `Logged in: ${authData.studentName}` : 'Always here to help'}
+                </div>
               </div>
             </div>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              {authData && (
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    color: 'rgba(255,255,255,0.8)',
+                    background: 'none',
+                    border: 'none',
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                    borderRadius: '4px',
+                    fontSize: '12px'
+                  }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.2)'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = 'transparent'}
+                >
+                  Logout
+                </button>
+              )}
+              {!authData && (
+                <button
+                  onClick={() => setShowAuth(true)}
+                  style={{
+                    color: 'rgba(255,255,255,0.8)',
+                    background: 'none',
+                    border: 'none', 
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                    borderRadius: '4px',
+                    fontSize: '12px'
+                  }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.2)'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = 'transparent'}
+                >
+                  Student Login
+                </button>
+              )}
             <button
               onClick={toggleChat}
               style={{
