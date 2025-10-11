@@ -19,14 +19,18 @@ const SimpleChatWidget = () => {
   useEffect(() => {
     if (isOpen && !sessionId) {
       setSessionId(Date.now().toString());
+      const welcomeMessage = authData 
+        ? `Hi ${authData.studentName}! I can help you with your personal information like fees, schedules, and general RMSS inquiries. How can I assist you today?`
+        : 'Hi! I am RMSS AI Assistant. I can help you with course information, enrollment inquiries, study tips, and more. How can I assist you today?';
+        
       setMessages([{
         id: 'welcome',
-        text: 'Hi! I am RMSS AI Assistant. I can help you with course information, enrollment inquiries, study tips, and more. How can I assist you today?',
+        text: welcomeMessage,
         sender: 'bot',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
     }
-  }, [isOpen, sessionId]);
+  }, [isOpen, sessionId, authData]);
 
   // Auto-scroll to bottom
   useEffect(() => {
