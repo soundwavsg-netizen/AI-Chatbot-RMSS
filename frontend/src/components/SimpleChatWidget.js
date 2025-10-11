@@ -11,6 +11,8 @@ const SimpleChatWidget = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
+  const [authData, setAuthData] = useState(null); // For authenticated student
+  const [showAuth, setShowAuth] = useState(false);
   const messagesEndRef = useRef(null);
 
   // Initial welcome message
