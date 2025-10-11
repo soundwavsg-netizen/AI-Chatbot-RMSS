@@ -62,6 +62,9 @@ const RMSSHomepage = () => {
               <a href="/auth-demo" className="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 text-center">
                 🔐 Student Login Demo
               </a>
+              <a href="/AILibrary" className="bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition duration-300 text-center">
+                🧠 AI Training Library
+              </a>
             </div>
           </div>
         </div>
