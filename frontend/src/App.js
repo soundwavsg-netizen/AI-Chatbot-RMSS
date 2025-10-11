@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SimpleChatWidget from "./components/SimpleChatWidget";
 import WhatsAppDemo from "./components/WhatsAppDemo";
 import AuthDemo from "./components/AuthDemo";
+import AILibrary from "./components/AILibrary";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
