@@ -61,11 +61,18 @@ const SimpleChatWidget = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${API}/chat`, {
+      const requestData = {
         message: cleanText(inputMessage),
         session_id: sessionId,
-        user_type: 'visitor'
-      });
+        user_type: authData ? 'student' : 'visitor'
+      };
+      
+      // Add auth token if authenticated
+      if (authData) {
+        requestData.auth_token = authData.sessionToken;
+      }
+      
+      const response = await axios.post(`${API}/chat`, requestData);
 
       const botMsg = {
         id: response.data.message_id || Date.now().toString(),
