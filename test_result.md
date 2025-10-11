@@ -195,11 +195,12 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Chat Widget Rendering Issue - Critical UI Problem"
+    - "Student Authentication System Demo"
     - "Context Memory System - P6 Math pricing accuracy"
-    - "Context Memory System - Location context retention"
   stuck_tasks:
+    - "Chat Widget Rendering - Interface not visible despite DOM presence"
     - "Context Memory System - P6 Math returns P5 pricing in conversation flows"
-    - "Context Memory System - Location-first queries lose context"
   test_all: false
   test_priority: "high_first"
 
