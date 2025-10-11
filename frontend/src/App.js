@@ -264,6 +264,7 @@ function App() {
         <Routes>
           <Route path="/" element={<RMSSHomepage />} />
           <Route path="/whatsapp" element={<WhatsAppDemo />} />
+          <Route path="/auth-demo" element={<AuthDemo />} />
         </Routes>
       </BrowserRouter>
     </div>
